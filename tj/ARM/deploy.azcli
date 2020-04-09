@@ -1,0 +1,31 @@
+az account list -o table
+az network vnet list 
+
+RG=$(az group create --location westeurope --name project42-RG)
+az group list -o table
+
+# Variablen müssen exportiert sein, damit man sie in einer sub-Shell verwenden kann
+#    export foo="bar"
+#    az ... | xargs -L1 bash -c 'az ... "$foo"'
+
+export RgName=$(echo $RG | jq '.name' | tr -d '"')
+
+az deployment group create --resource-group $RgName --name vnet_arm_test_06 \
+    --template-file tj/ARM/vnet.json  \
+    --parameters @tj/ARM/vnet.parameters.json \
+    --parameters '{
+        "vnetName": {
+            "value": "Vnet3"
+            }
+        }'
+
+az network vnet list --resource-group $RgName -o table
+az network vnet list --resource-group $RgName --query "[].id"
+az network vnet show --name Vnet1 --resource-group $RgName --query 
+
+az group list --query "[?name=='$RgName']".name --output tsv | xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
+
+# bash -ec  Was bewirkt -e?
+
+az network vnet list --query "[?starts_with(name,'Vnet')]".name --output tsv | \
+    xargs -L1 bash -c 'az network vnet delete --name $0 --resource-group "$RgName"'
