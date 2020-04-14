@@ -1,16 +1,41 @@
+# Login to Azure subscription
+# ---------------------------
+sub='9c5ec55f-11f8-4baf-9460-ae5f3888346e'
+az login
 az account list -o table
-az network vnet list 
+az account show --subscription $sub
 
-RG=$(az group create --location westeurope --name project42-RG)
+
+# Create RG , export variables
+# ----------------------------
 az group list -o table
+RG=$(az group create --location westeurope --name project42-RG)
 
-# Variablen müssen exportiert sein, damit man sie in einer sub-Shell verwenden kann
-#    export foo="bar"
-#    az ... | xargs -L1 bash -c 'az ... "$foo"'
+#   for use in a sub shell each variable has to be exported
+#      export foo="bar"
+#      ^^^^^^
+#      az ... | xargs -L1 bash -c 'az ... "$foo"'
+
+#      Question: What is -e in 
+#                bash -ec '<do something in sub shell>'
+#
+#      cf. https://docs.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-cli
 
 export RgName=$(echo $RG | jq '.name' | tr -d '"')
+export RgName="project42-RG"
 
-az deployment group create --resource-group $RgName --name vnet_arm_test_06 \
+# ---------
+# vnet.json
+# ---------
+#     ARM template for 
+#             Vnet with two subnets ("default" and "AzureBastionSubnet")
+#             Bastion Host
+#     ------------------------------------------------------------------
+#   parameter vnetName
+#      default value in template   Vnet1
+#      parameter file value        Vnet2
+#      command line value          Vnet3
+az deployment group create --resource-group $RgName --name so01 \
     --template-file tj/ARM/vnet.json  \
     --parameters @tj/ARM/vnet.parameters.json \
     --parameters '{
@@ -21,11 +46,93 @@ az deployment group create --resource-group $RgName --name vnet_arm_test_06 \
 
 az network vnet list --resource-group $RgName -o table
 az network vnet list --resource-group $RgName --query "[].id"
-az network vnet show --name Vnet1 --resource-group $RgName --query 
 
+
+# Delete something
+# ----------------
+
+#   prior to delete inspect your RG
+#   list resources in RG
+#       {name:name, type:type} does *not* work with -o table
+#       {Name:name, Type:type} does       work with -o table
+az resource list --resource-group $RgName --query "[].{Name:name, Type:type}" -o table
+
+#   delete RG completely
 az group list --query "[?name=='$RgName']".name --output tsv | xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
 
-# bash -ec  Was bewirkt -e?
-
+#   delete something in RG but not RG itself
+#   delete all vnet in RG
 az network vnet list --query "[?starts_with(name,'Vnet')]".name --output tsv | \
     xargs -L1 bash -c 'az network vnet delete --name $0 --resource-group "$RgName"'
+
+#   delete deployment to RG
+az deployment group list --resource-group $RgName --query "[].name" -o tsv
+az deployment group delete --resource-group $RgName --name Microsoft.StorageAccount-20200410095100
+
+az deployment group list --resource-group $RgName > ./tj/ARM/depoyment.json
+az deployment group list --resource-group $RgName --query "[].[name, properties.outputResources[*]]"
+
+
+# ARM template deployment in complete mode (dangerous)
+# ----------------------------------------------------
+#
+# In complete mode, Resource Manager deletes resources that exist in the resource group but aren't specified in the template.
+# https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/deployment-modes
+
+az deployment group create --resource-group $RgName --name kar02 \
+    --template-file tj/ARM/vnet.json  \
+    --parameters @tj/ARM/vnet.parameters.json \
+    --parameters '{
+        "vnetName": {
+            "value": "Vnet3"
+            }
+        }' \
+    --mode Complete
+
+#   deploy empty ARM template (complete mode) to delete all resource in RG
+az deployment group create --mode Complete --resource-group $RgName --template-file tj/ARM/empty.json --name kar04
+
+
+
+# Azure Bastion
+# -------------
+az deployment group create --resource-group $RgName --name sa02 \
+    --template-file tj/ARM/vnet.json --parameters '{"vnetName": {"value": "Vnet4"}}'
+
+az network vnet list --resource-group $RgName -o table
+az network vnet delete --name Vnet1 --resource-group $RgName
+
+az network bastion list --query "[].{Name:name, Location:location, resourceGroup:resourceGroup}" -o table
+az network bastion delete --name Vnet1-Bastion --resource-group $RgName
+
+az network public-ip list -o table
+az network public-ip delete --name Vnet1-Bastion-ip --resource-group $RgName
+
+
+# -----------
+# subnet.json
+# -----------
+#     ARM template to add a subnet to existing Vnet
+#     ---------------------------------------------
+
+az deployment group create --resource-group $RgName --template-file tj/ARM/vnet.json --name mo01
+
+az deployment group create --resource-group $RgName --template-file tj/ARM/subnet.json --name mo03 \
+    --parameters '{
+        "vnetName": {
+            "value": "Vnet1"
+        },
+        "subnetName": {
+            "value": "Subnet43"
+        },
+        "addressPrefix": {
+            "value": "10.0.43.0/24"
+        }
+    }'
+
+az network vnet subnet list --resource-group $RgName --vnet-name Vnet1 --query "[].{Name:name, AddressPrefix:addressPrefix}" -o table
+
+# Vnet and Bastion and VM
+# -----------------------
+az deployment group create --resource-group $RgName --template-file tj/ARM/vnet_vms.json --name mo04 
+az deployment group create --resource-group $RgName --template-file tj/ARM/empty.json --mode Complete --name mo05

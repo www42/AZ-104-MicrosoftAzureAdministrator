@@ -1,1 +1,0 @@
-[Neil Peterson explains the ARM Tools for VS Code](https://channel9.msdn.com/Shows/IT-Ops-Talk/Azure-Resource-Manager-Tools-for-VS-Code)
