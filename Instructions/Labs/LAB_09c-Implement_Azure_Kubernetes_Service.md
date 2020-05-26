@@ -19,6 +19,8 @@ In this lab, you will:
 + Task 2: Deploy pods into the Azure Kubernetes Service cluster
 + Task 3: Scale containerized workloads in the Azure Kubernetes service cluster
 
+## Estimated timing: 40 minutes
+
 ## Instructions
 
 ### Exercise 1
@@ -40,11 +42,10 @@ In this task, you will deploy an Azure Kubernetes Services cluster by using the 
     | Kubernetes cluster name | **az104-9c-aks1** |
     | Region | the name of a region where you can provision a Kubernetes cluster |
     | Kubernetes version | accept the default |
-    | DNS name prefix | any valid, globally unique DNS host name |
     | Node size | accept the default |
     | Node count | **1** |
 
-1. Click **Next: Scale >** and, on the **Scale** tab of the **Create Kubernetes cluster** blade, specify the following settings (leave others with their default values):
+1. Click **Next: Node Pools >** and, on the **Node Pools** tab of the **Create Kubernetes cluster** blade, specify the following settings (leave others with their default values):
 
     | Setting | Value |
     | ---- | ---- |
@@ -63,11 +64,12 @@ In this task, you will deploy an Azure Kubernetes Services cluster by using the 
 
     | Setting | Value |
     | ---- | ---- |
+    | DNS name prefix | any valid, globally unique DNS host name |
     | HTTP application routing | **No** |
     | Load balancer | **Standard** |
     | Network configuration | **Advanced** |
 
-1. Click **Next: Monitoring >**, on the **Monitoring** tab of the **Create Kubernetes cluster** blade, set **Enable container monitoring** to **No**, click **Review + create** and then click **Create**. 
+1. Click **Next: Integration >**, on the **Integration** tab of the **Create Kubernetes cluster** blade, set **Container monitoring** to **Disabled**, click **Review + create** and then click **Create**. 
 
     >**Note**: In production scenarios, you would want to enable monitoring. Monitoring is disabled in this case since it is not covered in the lab. 
 

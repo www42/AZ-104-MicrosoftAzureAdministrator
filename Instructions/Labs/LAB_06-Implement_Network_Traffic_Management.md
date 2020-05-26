@@ -22,6 +22,8 @@ In this lab, you will:
 + Task 5: Implement Azure Load Balancer
 + Task 6: Implement Azure Application Gateway
 
+## Estimated timing: 60 minutes
+
 ## Instructions
 
 ### Exercise 1
@@ -45,7 +47,7 @@ In this task, you will deploy four virtual machines into the same Azure region. 
    ```pwsh
    $location = '[Azure_region]'
 
-   $rgName = 'az104-06-rg01'
+   $rgName = 'az104-06-rg1'
 
    New-AzResourceGroup -Name $rgName -Location $location
    ```
@@ -170,7 +172,7 @@ In this task, you will test transitivity of virtual network peering by using Net
     | Setting | Value |
     | --- | --- |
     | Subscription | the name of the Azure subscription you are using in this lab |
-    | Resource group | **az104-06-rg01** |
+    | Resource group | **az104-06-rg1** |
     | Source type | **Virtual machine** |
     | Virtual machine | **az104-06-vm0** |
     | Destination | **Specify manually** |
@@ -191,7 +193,7 @@ In this task, you will test transitivity of virtual network peering by using Net
     | Setting | Value |
     | --- | --- |
     | Subscription | the name of the Azure subscription you are using in this lab |
-    | Resource group | **az104-06-rg01** |
+    | Resource group | **az104-06-rg1** |
     | Source type | **Virtual machine** |
     | Virtual machine | **az104-06-vm0** |
     | Destination | **Specify manually** |
@@ -355,7 +357,8 @@ In this task, you will configure and test routing between the two spoke virtual 
     | Protocol | **TCP** |
     | Destination Port | **3389** |
 
-1. Click **Check** and wait until results of the connectivity check are returned. Verify that the status is **Reachable**. Review the network path and note that the traffic was routed via **10.60.0.4**, assigned to the **az104-06-nic0** network adapter.
+1. Click **Check** and wait until results of the connectivity check are returned. Verify that the status is **Reachable**. Review the network path and note that the traffic was routed via **10.60.0.4**, assigned to the **az104-06-nic0** network adapter. If status is **Unreachable**, you should restart az104-06-vm0.
+
 
     > **Note**: This is expected, since the traffic between spoke virtual networks is now routed via the virtual machine located in the hub virtual network, which functions as a router. 
 
@@ -449,7 +452,7 @@ In this task, you will implement an Azure Application Gateway in front of the tw
 
 1. On the **Virtual networks** blade, in the list of virtual networks, click **az104-06-vnet01**.
 
-1. On the  **az104-06-vnet01** virtual network blade, in the **Settings** section, click **Subnets**, and then click **+ Add**.
+1. On the  **az104-06-vnet01** virtual network blade, in the **Settings** section, click **Subnets**, and then click **+ Subnet**.
 
 1. Add a subnet with the following settings (leave others with their default values):
 
@@ -476,7 +479,7 @@ In this task, you will implement an Azure Application Gateway in front of the tw
     | Enable autoscaling | **No** |
     | Scale units | **1** |
     | Availability zone | **1, 2, 3** |
-    | HTTP/2 | **Disabled** |
+    | HTTP2 | **Disabled** |
     | Virtual network | **az104-06-vnet01** |
     | Subnet | **subnet-appgw** |
 
@@ -485,7 +488,7 @@ In this task, you will implement an Azure Application Gateway in front of the tw
     | Setting | Value |
     | --- | --- |
     | Frontend IP address type | **Public** |
-    | Public IP address| the name of a new public ip address **az104-06-pip5** |
+    | Firewall public IP address| the name of a new public ip address **az104-06-pip5** |
 
 1. Click **Next: Backends >**, on the **Backends** tab of the **Create an application gateway** blade, click **Add a backend pool**, and, on the **Add a backend pool** blade, specify the following settings (leave others with their default values):
 

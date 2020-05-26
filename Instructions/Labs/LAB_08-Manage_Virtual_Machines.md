@@ -22,6 +22,8 @@ In this lab, you will:
 + Task 5: Configure Azure virtual machine scale sets by using virtual machine extensions
 + Task 6: Scale compute and storage for Azure virtual machine scale sets (optional)
 
+## Estimated timing: 50 minutes
+
 ## Instructions
 
 ### Exercise 1
@@ -83,9 +85,12 @@ In this task, you will deploy Azure virtual machines into different availability
 
     | Setting | Value | 
     | --- | --- |
-    | Boot diagnostics | **Off** |
+    | Boot diagnostics | **On** |
+    | Diagnostics storage account | the default value |
 
-1. Click **Next: Advanced >**, on the **Management** tab of the **Create a virtual machine** blade, review the available settings without modifying any of them, and click **Review + Create**.
+    >**Note**: Identify the name of diagnostics storage account. You will use it in the next task. 
+    
+1. Click **Next: Advanced >**, on the **Advanced** tab of the **Create a virtual machine** blade, review the available settings without modifying any of them, and click **Review + Create**.
 
 1. On the **Review + Create** blade, click **Create**.
 
@@ -116,13 +121,34 @@ In this task, you will deploy Azure virtual machines into different availability
 
 In this task, you will install Windows Server Web Server role on the two Azure virtual machines you deployed in the previous task by using the Custom Script virtual machine extension. 
 
+1. In the Azure portal, search for and select **Storage accounts** and, on the **Storage accounts** blade, click the entry representing the diagnostics storage account you created in the previous task. 
+
+1. On the storage account blade, click **Containers** and then click **+ Container**. 
+
+1. On the **New container** blade, specify the following settings (leave others with their default values) and click **Create**:
+
+    | Setting | Value | 
+    | --- | --- |
+    | Name | **scripts** |
+    | Public access level | **Private (no anonymous access**) |
+    
+1. Back on the storage account blade displaying the list of containers, click **scripts**.
+
+1. On the **scripts** blade, click **Upload**.
+
+1. On the **Upload blob** blade, click the folder icon, in the **Open** dialog box, navigate to the **\\Allfiles\\Labs\\08** folder, select **az104-08-install_IIS.ps1**, click **Open**, and back on the **Upload blob** blade, click **Upload**. 
+
 1. In the Azure portal, search for and select **Virtual machines** and, on the **Virtual machines** blade, click **az104-08-vm0**.
 
 1. On the **az104-08-vm0** virtual machine blade, in the **Settings** section, click **Extensions**, and the click **+ Add**.
 
 1. On the **New resource** blade, click **Custom Script Extension** and then click **Create**.
 
-1. From the **Install extension** blade, upload the script **az104-08-install_IIS.ps1** from **\\Allfiles\\Labs\\08** and click **OK**.
+1. From the **Install extension** blade, click **Browse**. 
+
+1. On the **Storage accounts** blade, click the name of the storage account into which you uploaded the **az104-08-install_IIS.ps1** script, on the **Containers** blade, click **scripts**, on the **scripts** blade, click **az104-08-install_IIS.ps1**, and then click **Select**. 
+
+1. Back on the **Install extension** blade, click **OK**.
 
 1. In the Azure portal, search for and select **Virtual machines** and, on the **Virtual machines** blade, click **az104-08-vm1**.
 
@@ -289,7 +315,24 @@ In this task you will scale compute for Azure virtual machines by changing their
    ```
     > **Note**: Wait for the confirmation that the commands completed successfully.
 
-#### Task 4: Deploy zone-resilient Azure virtual machine scale sets by using the Azure portal
+
+#### Task 4: Register the Microsoft.Insights and Microsoft.AlertsManagement resource providers.
+
+1. In the Azure portal, open the **Azure Cloud Shell** by clicking on the icon in the top right of the Azure Portal.
+
+1. If prompted to select either **Bash** or **PowerShell**, select **PowerShell**. 
+
+    >**Note**: If this is the first time you are starting **Cloud Shell** and you are presented with the **You have no storage mounted** message, select the subscription you are using in this lab, and click **Create storage**. 
+
+1. From the Cloud Shell pane, run the following to register the Microsoft.Insights and Microsoft.AlertsManagement resource providers.
+
+   ```pwsh
+   Register-AzResourceProvider -ProviderNamespace Microsoft.Insights
+   
+   Register-AzResourceProvider -ProviderNamespace Microsoft.AlertsManagement
+   ```
+
+#### Task 5: Deploy zone-resilient Azure virtual machine scale sets by using the Azure portal
 
 In this task, you will deploy Azure virtual machine scale set across availability zones by using the Azure portal.
 
@@ -390,7 +433,7 @@ In this task, you will deploy Azure virtual machine scale set across availabilit
     >**Note**: Wait for the virtual machine scale set deployment to complete. This should take about 5 minutes.
 
 
-#### Task 5: Configure Azure virtual machine scale sets by using virtual machine extensions
+#### Task 6: Configure Azure virtual machine scale sets by using virtual machine extensions
 
 In this task, you will install Windows Server Web Server role on the instances of the Azure virtual machine scale set you deployed in the previous task by using the Custom Script virtual machine extension. 
 
@@ -400,7 +443,7 @@ In this task, you will install Windows Server Web Server role on the instances o
 
 1. On the **New resource** blade, click **Custom Script Extension** and then click **Create**.
 
-1. From the **Install extension** blade, upload the script **az104-08-install_IIS.ps1** from **\\Allfiles\\Labs\\08** and click **OK**.
+1. From the **Install extension** blade, **Browse** to and **Select** the **az104-08-install_IIS.ps1** script that was uploaded to the **scripts** container in your storage account earlier in this lab, and then click **OK**.
 
     >**Note**: Wait for the installation of the extension to complete before proceeding to the next step.
 
@@ -415,7 +458,7 @@ In this task, you will install Windows Server Web Server role on the instances o
     >**Note**: Verify that the browser page displays the name of one of the instances of the Azure virtual machine scale set **az10408vmss0**.
 
 
-#### Task 6: Scale compute and storage for Azure virtual machine scale sets
+#### Task 7: Scale compute and storage for Azure virtual machine scale sets
 
 In this task, you will change the size of virtual machine scale set instances, configure their autoscaling settings, and attach disks to them.
 
@@ -469,8 +512,6 @@ In this task, you will change the size of virtual machine scale set instances, c
 
 1. If prompted to select either **Bash** or **PowerShell**, select **PowerShell**. 
 
-    >**Note**: If this is the first time you are starting **Cloud Shell** and you are presented with the **You have no storage mounted** message, select the subscription you are using in this lab, and click **Create storage**. 
-
 1. From the Cloud Shell pane, run the following to identify the public IP address of the load balancer in front of the Azure virtual machine scale set **az10408vmss0**.
 
    ```pwsh
@@ -494,7 +535,7 @@ In this task, you will change the size of virtual machine scale set instances, c
 
 1. Close Cloud Shell pane. 
 
-1. On the **az10408vmss0** blade, click **Storage**, click **+ Add data disk**, and attach a new managed disk with the following settings (leave others with their default values):
+1. On the **az10408vmss0** blade, click **Disks**, click **+ Add data disk**, and attach a new managed disk with the following settings (leave others with their default values):
 
     | Setting | Value | 
     | --- | --- |

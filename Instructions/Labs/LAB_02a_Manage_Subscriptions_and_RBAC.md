@@ -26,6 +26,9 @@ In this lab, you will:
 + Task 2: Create custom RBAC roles 
 + Task 3: Assign RBAC roles
 
+
+## Estimated timing: 30 minutes
+
 ## Instructions
 
 ### Exercise 1

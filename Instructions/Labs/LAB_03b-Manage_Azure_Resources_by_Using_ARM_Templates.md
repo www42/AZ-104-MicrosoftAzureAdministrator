@@ -18,6 +18,8 @@ In this lab, you will:
 + Task 2: Create an Azure managed disk by using an ARM template
 + Task 3: Review the ARM template-based deployment of the managed disk
 
+## Estimated timing: 20 minutes
+
 ## Instructions
 
 ### Exercise 1
@@ -34,7 +36,7 @@ In this task, you will create an Azure disk resource by using an Azure Resource 
 
 1. On the **az104-03a-rg1** resource group blade, in the **Settings** section, click **Deployments**.
 
-1. On the **az104-03a-rg1 - Deployments** blade, click the first entry in the list of deployments and then click **Template**.
+1. On the **az104-03a-rg1 - Deployments** blade, click the first entry in the list of deployments and then click **View template**.
 
     >**Note**: Review the content of the template and note that you have the option to download it to the local computer, add it to the library, and re-deploy it.
 

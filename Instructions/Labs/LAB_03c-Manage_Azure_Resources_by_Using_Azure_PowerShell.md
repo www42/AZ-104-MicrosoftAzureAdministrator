@@ -19,6 +19,8 @@ In this lab, you will:
 + Task 2: Create a resource group and an Azure managed disk by using Azure PowerShell
 + Task 3: Configure the managed disk by using Azure PowerShell
 
+## Estimated timing: 20 minutes
+
 ## Instructions
 
 ### Exercise 1
@@ -92,6 +94,12 @@ In this task, you will managing configuration of the Azure managed disk by using
 
    ```pwsh
    Get-AzDisk -ResourceGroupName $rgName -Name $diskName
+   ```
+
+1. To verify the current SKU as **Standard_LRS**, run the following:
+
+   ```pwsh
+   (Get-AzDisk -ResourceGroupName $rgName -Name $diskName).Sku
    ```
 
 1. To change the disk performance SKU to **Premium_LRS**, from the PowerShell session within Cloud Shell, run the following:
