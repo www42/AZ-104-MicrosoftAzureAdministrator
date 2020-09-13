@@ -11,6 +11,8 @@ lab:
 
 You were tasked with testing managing network traffic targeting Azure virtual machines in the hub and spoke network topology, which Contoso considers implementing in its Azure environment (instead of creating the mesh topology, which you tested in the previous lab). This testing needs to include implementing connectivity between spokes by relying on user defined routes that force traffic to flow via the hub, as well as traffic distribution across virtual machines by using layer 4 and layer 7 load balancers. For this purpose, you intend to use Azure Load Balancer (layer 4) and Azure Application Gateway (layer 7).
 
+>**Note**: This lab, by default, requires total of 8 vCPUs available in the Standard_Dsv3 series in the region you choose for deployment, since it involves deployment of four Azure VMs of Standard_D2s_v3 SKU. If your students are using trial accounts, with the limit of 4 vCPUs, you can use a VM size that requires only one vCPU (such as Standard_B1s). 
+
 ## Objectives
 
 In this lab, you will:
@@ -126,7 +128,7 @@ In this task, you will configure local peering between the virtual networks you 
     | Name of the peering from az104-06-vnet2 to az104-06-vnet01 | **az104-06-vnet2_to_az104-06-vnet01** |
     | Allow virtual network access from az104-06-vnet01 to az104-06-vnet2 | **Enabled** |
     | Allow virtual network access from az104-06-vnet2 to az104-06-vnet01 | **Enabled** |
-    | Allow forwarded traffic from az104-06-vnet2 to az104-06-vnet01 | **Enabled** |
+    | Allow forwarded traffic from az104-06-vnet2 to az104-06-vnet01 | **Disabled** |
     | Allow forwarded traffic from az104-06-vnet01 to az104-06-vnet2 | **Enabled** |
     | Allow gateway transit | **(Uncheck Box)** |
 
@@ -149,7 +151,7 @@ In this task, you will configure local peering between the virtual networks you 
     | Name of the peering from az104-06-vnet3 to az104-06-vnet01 | **az104-06-vnet3_to_az104-06-vnet01** |
     | Allow virtual network access from az104-06-vnet01 to az104-06-vnet3 | **Enabled** |
     | Allow virtual network access from az104-06-vnet3 to az104-06-vnet01 | **Enabled** |
-    | Allow forwarded traffic from az104-06-vnet3 to az104-06-vnet01 | **Enabled** |
+    | Allow forwarded traffic from az104-06-vnet3 to az104-06-vnet01 | **Disabled** |
     | Allow forwarded traffic from az104-06-vnet01 to az104-06-vnet3 | **Enabled** |
     | Allow gateway transit | **(Uncheck Box)** |
 
@@ -234,7 +236,7 @@ In this task, you will configure and test routing between the two spoke virtual 
 
 1. On the **az104-06-vm0** virtual machine blade, in the **Settings** section, click **Networking**.
 
-1. Click the **az104-06-nic0** link next to the **Network interface** label, and then, on the **az104-06-nic0** network interface blade, in the **Settings** section, in the **Settings** section, click **IP configurations**. 
+1. Click the **az104-06-nic0** link next to the **Network interface** label, and then, on the **az104-06-nic0** network interface blade, in the **Settings** section, click **IP configurations**. 
 
 1. Set **IP forwarding** to **Enabled** and save the change. 
 
@@ -316,7 +318,7 @@ In this task, you will configure and test routing between the two spoke virtual 
     | Subscription | the name of the Azure subscription you are using in this lab |
     | Resource group | **az104-06-rg3** |
     | Location | the name of the Azure region in which you created the virtual networks |
-    | Virtual network gateway route propagation | **Disabled** |
+
 
    > **Note**: Wait for the route table to be created. This should take about 3 minutes.
 
@@ -524,7 +526,7 @@ In this task, you will implement an Azure Application Gateway in front of the tw
     | Target type | **Backend pool** |
     | Backend target | **az104-06-appgw5-be1** |
 
-1. On the **Backend targets** tab of the **Add a routing rule** blade, click **Create new** next to the **HTTP setting** text box, and, on the **Add an HTTP setting** blade, specify the following settings (leave others with their default values):
+1. On the **Backend targets** tab of the **Add a routing rule** blade, click **Add new** next to the **HTTP setting** text box, and, on the **Add an HTTP setting** blade, specify the following settings (leave others with their default values):
 
     | Setting | Value |
     | --- | --- |

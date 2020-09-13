@@ -118,7 +118,7 @@ In this task, you will assign the built-in *Require a tag and its value on resou
 
 1. On the resource group blade, click **+ Add**.
 
-1. On the **New** blade, search for and select **Storage account - blob, file, table, queue**, and click **Create**. 
+1. On the **New** blade, search for and select **Storage account**, and click **Create**. 
 
 1. On the **Basics** tab of the **Create storage account** blade, specify the following settings (leave others with their defaults) and click **Review + create**:
 
@@ -184,7 +184,7 @@ In this task, we will use a different policy definition to remediate any non-com
 
 1. On the resource group blade, click **+ Add**.
 
-1. On the **New** blade, search for and select **Storage account - blob, file, table, queue**, and click **Create**. 
+1. On the **New** blade, search for and select **Storage account**, and click **Create**. 
 
 1. On the **Basics** tab of the **Create storage account** blade, specify the following settings (leave others with their defaults) and click **Review + create**:
 
@@ -207,6 +207,10 @@ In this task, we will use a different policy definition to remediate any non-com
 1. In the **Authoring** section, click **Assignments**, click the ellipsis icon to the right of the assignment you created in the previous task and click **Delete assignment**. 
 
 1. In the portal, search for and select **Storage accounts**.
+
+1. In the list of storage accounts, select the resource group corresponding to the storage account you created in the last task of this lab. Select **Tags** and click **Delete** (Trash can to the right) to the **Role:Infra** tag and press **Save**. 
+
+1. In the portal, again search for and select **Storage accounts** or use the menu at the top to select **Storage accounts**
 
 1. In the list of storage accounts, select the storage account you created in the last task of this lab, click **Delete**, when prompted for the confirmation, in the **Confirm delete** type **yes** and click **Delete**. 
 

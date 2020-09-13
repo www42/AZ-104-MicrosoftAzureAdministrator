@@ -18,9 +18,10 @@ In this lab, you will:
 + Task 1: Deploy zone-resilient Azure virtual machines by using the Azure portal and an Azure Resource Manager template
 + Task 2: Configure Azure virtual machines by using virtual machine extensions
 + Task 3: Scale compute and storage for Azure virtual machines
-+ Task 4: Deploy zone-resilient Azure virtual machine scale sets by using the Azure portal
-+ Task 5: Configure Azure virtual machine scale sets by using virtual machine extensions
-+ Task 6: Scale compute and storage for Azure virtual machine scale sets (optional)
++ Task 4: Register the Microsoft.Insights and Microsoft.AlertsManagement resource providers
++ Task 5: Deploy zone-resilient Azure virtual machine scale sets by using the Azure portal
++ Task 6: Configure Azure virtual machine scale sets by using virtual machine extensions
++ Task 7: Scale compute and storage for Azure virtual machine scale sets (optional)
 
 ## Estimated timing: 50 minutes
 
@@ -46,7 +47,7 @@ In this task, you will deploy Azure virtual machines into different availability
     | Region | select one of the regions that support availability zones and where you can provision Azure virtual machines | 
     | Availability options | **Availability zone** |
     | Availability zone | **1** |
-    | Image | **Windows Server 2019 Datacenter** |
+    | Image | **Windows Server 2019 Datacenter - Gen1** |
     | Azure Spot instance | **No** |
     | Size | **Standard D2s v3** |
     | Username | **Student** |
@@ -85,8 +86,9 @@ In this task, you will deploy Azure virtual machines into different availability
 
     | Setting | Value | 
     | --- | --- |
-    | Boot diagnostics | **On** |
-    | Diagnostics storage account | the default value |
+    | Boot diagnostics | **Enable with custom storage account** |
+    | Diagnostics storage account | **Create new** |
+    | Create storage account | Enter a globally unique name all in lower case > Click **OK**|
 
     >**Note**: Identify the name of diagnostics storage account. You will use it in the next task. 
     
@@ -107,6 +109,7 @@ In this task, you will deploy Azure virtual machines into different availability
     | Resource group | **az104-08-rg01** |
     | Network Interface Name | **az104-08-vm1-nic1** |
     | Virtual Machine Name | **az104-08-vm1** |
+    | Virtual Machine Computer Name | **az104-08-vm1** |
     | Admin Username | **Student** |
     | Admin Password | **Pa55w.rd1234** |
     | Zone | **2** |
@@ -160,6 +163,8 @@ In this task, you will install Windows Server Web Server role on the two Azure v
 
 1. On the **Edit template** blade, in the section displaying the content of the template, insert the following code starting with line **20** (directly underneath the `    "resources": [` line):
 
+ >**Note**: If you are using a tool that pastes the code in line by line intellisense may add extra brackets causing validation errors. You may want to paste the code into notepad first and then paste it into line 20. 
+
    ```json
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
@@ -182,8 +187,8 @@ In this task, you will install Windows Server Web Server role on the two Azure v
 
    ```
 
-    >**Note**: This section of the template defines the same Azure virtual machine custom script extension that you deployed earlier to the first virtual machine via Azure PowerShell.
-
+ >**Note**: This section of the template defines the same Azure virtual machine custom script extension that you deployed earlier to the first virtual machine via Azure PowerShell.
+ 
 1. Click **Save** and, back on the **Custom template** blade, enable the checkbox **I agree to the terms and conditions stated above** and click **Purchase**.
 
     >**Note**: Disregard the message stating **The resource group is in a location that is not supported by one or more resources in the template. Please choose a different resource group**. This is expected and can be ignored in this case.
@@ -208,11 +213,11 @@ In this task you will scale compute for Azure virtual machines by changing their
 
 1. In the Azure portal, search for and select **Virtual machines** and, on the **Virtual machines** blade, click **az104-08-vm0**.
 
-1. On the **az104-08-vm0** virtual machine blade, click **Size** and set the virtual machine size to **Standard DS1_v2**
+1. On the **az104-08-vm0** virtual machine blade, click **Size** and set the virtual machine size to **Standard DS1_v2** and click **Resize**
 
     >**Note**: Choose another size if **Standard DS1_v2** is not available.
 
-1. On the **az104-08-vm0** virtual machine blade, click **Disks**, click **+ Add data disk**, and, in the **Name** drop down list, click **Create disk**.
+1. On the **az104-08-vm0** virtual machine blade, click **Disks**, Under **Data disks** click **+ Create and attach a new disk**. 
 
 1. Create a managed disk with the following settings (leave others with their default values):
 
@@ -224,7 +229,7 @@ In this task you will scale compute for Azure virtual machines by changing their
     | Size | **1024 GiB** |
 
 
-1. Back on the **az104-08-vm0 - Disks** blade, click **+ Add data disk**, and, in the **Name** drop down list, click **Create disk**.
+1. Back on the **az104-08-vm0 - Disks** blade, Under **Data disks** click **+ Create and attach a new disk**. 
 
 1. Create a managed disk with the following settings (leave others with their default values):
 
@@ -261,6 +266,8 @@ In this task you will scale compute for Azure virtual machines by changing their
 
 1. On the **Custom deployment** blade, click **Edit template**.
 
+    >**Note**: Disregard the message stating **The resource group is in a location that is not supported by one or more resources in the template. Please choose a different resource group**. This is expected and can be ignored in this case.
+
 1. On the **Edit template** blade, in the section displaying the content of the template, replace the line **30** `                    "vmSize": "Standard_D2s_v3"` with the following line):
 
    ```json
@@ -269,7 +276,6 @@ In this task you will scale compute for Azure virtual machines by changing their
    ```
 
     >**Note**: This section of the template defines the same Azure virtual machine size as the one you specified for the first virtual machine via the Azure portal.
-
 
 1. On the **Edit template** blade, in the section displaying the content of the template, replace line **49** (`                    "dataDisks": [ ]` line) with the following code :
 
@@ -292,11 +298,12 @@ In this task you will scale compute for Azure virtual machines by changing their
                     ]
    ```
 
+    >**Note**: If you are using a tool that pastes the code in line by line intellisense may add extra brackets causing validation errors. You may want to paste the code into notepad first and then paste it into line 49. 
+    
     >**Note**: This section of the template creates two managed disks and attaches them to **az104-08-vm1**, similarly to the storage configuration of the first virtual machine via the Azure portal.
 
-1. Click **Save** and, back on the **Custom template** blade, enable the checkbox **I agree to the terms and conditions stated above** and click **Purchase**.
 
-    >**Note**: Disregard the message stating **The resource group is in a location that is not supported by one or more resources in the template. Please choose a different resource group**. This is expected and can be ignored in this case.
+1. Click **Save** and, back on the **Custom template** blade, enable the checkbox **I agree to the terms and conditions stated above** and click **Purchase**.
 
     >**Note**: Wait for the template deployment to complete. You can monitor its progress from the **Extensions** blade of the **az104-08-vm1** virtual machine. This should take no more than 3 minutes.
 
@@ -316,7 +323,7 @@ In this task you will scale compute for Azure virtual machines by changing their
     > **Note**: Wait for the confirmation that the commands completed successfully.
 
 
-#### Task 4: Register the Microsoft.Insights and Microsoft.AlertsManagement resource providers.
+#### Task 4: Register the Microsoft.Insights and Microsoft.AlertsManagement resource providers
 
 1. In the Azure portal, open the **Azure Cloud Shell** by clicking on the icon in the top right of the Azure Portal.
 
@@ -500,13 +507,13 @@ In this task, you will change the size of virtual machine scale set instances, c
     | Setting | Value |
     | --- |--- |
     | Metric source | **Current resource (az10480vmss0)** |
-    | Time aggregation | **Maximum** |
+    | Time aggregation | **Average** |
     | Metric namespace | **Virtual Machine Host** |
     | Metric name | **Network In Total** |
     | Operator | **Greater than** |
     | Metric threshold to trigger scale action | **10** |
     | Duration (in minutes) | **1** |
-    | Time grain statistic | **Maximum** |
+    | Time grain statistic | **Average** |
     | Operation | **Increase count by** |
     | Instance count | **1** |
     | Cool down (minutes) | **5** |
@@ -598,6 +605,12 @@ In this task, you will change the size of virtual machine scale set instances, c
    >**Note**: Remember to remove any newly created Azure resources that you no longer use. Removing unused resources ensures you will not see unexpected charges.
 
 1. In the Azure portal, open the **PowerShell** session within the **Cloud Shell** pane.
+
+1. Remove az104-08-configure_VMSS_disks.ps1 by running the following command:
+
+   ```pwsh
+   rm ~\az104-08-configure_VMSS_disks.ps1
+   ```
 
 1. List all resource groups created throughout the labs of this module by running the following command:
 

@@ -31,6 +31,8 @@ In this lab, you will:
 
 In this task, you will create and configure Azure AD users.
 
+    >**Note**: If you have previously used the Trial license for Azure AD Premium on this Azure AD Tenant you will need a new Azure AD Tenant or perform the Task 2 after Task 3 in that new Azure AD tenant.
+
 1. In the Azure portal, search for and select **Azure Active Directory**.
 
 1. On the Azure Active Directory blade, scroll down to the **Manage** section, click **User settings**, and review available configuration options.
@@ -118,7 +120,7 @@ In this task, you will create Azure Active Directory groups with assigned and dy
     | Group description | **Contoso IT cloud administrators** |
     | Membership type | **Dynamic User** |
 
-    >**Note**: If the **Membership type** drop-down list is grayed out, refresh the browser page.
+    >**Note**: If the **Membership type** drop-down list is grayed out, wait a few minutes and refresh the browser page.
 
 1. Click **Add dynamic query**.
 
@@ -221,7 +223,7 @@ In this task, you will create Azure AD guest users and grant them access to reso
     | Setting | Value |
     | --- | --- |
     | Name | **az104-01b-aaduser1** |
-    | Email address | paste the value you copied into Clipboard earlier in this task |
+    | Email address | any valid email address not matching any of user principal names in the current tenant |
     | Usage location | **United States** |
     | Job title | **Lab Administrator** |
     | Department | **IT** |

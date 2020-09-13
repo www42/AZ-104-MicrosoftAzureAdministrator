@@ -104,8 +104,10 @@ In this task, you will configure web app deployment settings.
 
     | Setting | Value |
     | --- | ---|
-    | User name | any unique name |
-    | Password | **Pa55w0rd1234** |
+    | User name | any unique name (must not contain `@` character) |
+    | Password | any password that satisfies complexity requirements |
+    
+    >**Note:** The password must be at least eight characters long, with two of the following three elements: letters, numbers, and non-alphanumeric characters.
 
     >**Note:** You will need these credentials in the next task of this lab.
 
@@ -144,7 +146,7 @@ In this task, you will deploy code to the staging deployment slot.
    git push [deployment_user_name] master
    ```
 
-1. If prompted to authenticate, type the `[deployment_user_name]` and the corresponding password (**Pa55w0rd1234**).
+1. If prompted to authenticate, type the `[deployment_user_name]` and the corresponding password (which you set in the previous task).
 
 1. Close the Cloud Shell pane.
 
@@ -167,6 +169,9 @@ In this task, you will swap the staging slot with the production slot
 1. Verify the default web page has been replaced with the **Hello World!** page. 
 
 #### Task 6: Configure and test autoscaling of the Azure web app
+
+>**Note**: You will need to confirm that Microsoft.Insights is registered on your subscription for this lab. For more information regarding this task, refer to https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types#azure-portal
+    
 
 In this task, you will configure and test autoscaling of Azure web app. 
 
@@ -194,7 +199,9 @@ In this task, you will configure and test autoscaling of Azure web app.
     | Instance count | **1** |
     | Cool down (minutes) | **5** |
 
-    >**Note**: Obviously these values do not represent a realistic configuration, since their purpose is to trigger autoscaling as soon as possible, without extended wait period. 
+    >**Note**: Obviously these values do not represent a realistic configuration, since their purpose is to trigger autoscaling as soon as possible, without extended wait period.
+    
+    
 
 1. Click **Add** and, back on the App Service plan scaling blade, specify the following settings (leave others with their default values):
 
@@ -205,6 +212,8 @@ In this task, you will configure and test autoscaling of Azure web app.
     | Instance limits Default | **1** |
 
 1. Click **Save**.
+
+    
 
 1. In the Azure portal, open the **Azure Cloud Shell** by clicking on the icon in the top right of the Azure Portal.
 
