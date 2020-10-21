@@ -47,8 +47,7 @@ Receive-Job -Id 1 -Keep
 
 Get-AzVM -Status | where ResourceGroupName -Like "AZ104-05*" | sort Name | Format-Table Name,PowerState,ResourceGroupName,Location
 
-# Get-AzVM -Status | where {$_.ResourceGroupName -Like "AZ104-05*" -and $_.PowerState -eq "VM running"} | 
-#     Stop-AzVM -Force
+# Get-AzVM -Status | where {$_.ResourceGroupName -Like "AZ104-05*" -and $_.PowerState -eq "VM running"} | Stop-AzVM -Force -AsJob
 
 Get-AzVM -Status | where {$_.ResourceGroupName -Like "AZ104-05*" -and $_.PowerState -eq "VM deallocated"} | 
     Start-AzVM -AsJob
