@@ -22,6 +22,8 @@ In this lab, you will:
 + Task 5: Create and configure an Azure Files shares
 + Task 6: Manage network access for Azure Storage
 
+## Estimated timing: 40 minutes
+
 ## Instructions
 
 ### Exercise 1
@@ -74,14 +76,16 @@ In this task, you will create and configure an Azure Storage account.
     | Setting | Value | 
     | --- | --- |
     | Subscription | the name of the Azure subscription you are using in this lab |
-    | Resource group | the name of a new resource group **az104-07-rg1** |
+    | Resource group | the name of a **new** resource group **az104-07-rg1** |
     | Storage account name | any globally unique name between 3 and 24 in length consisting of letters and digits |
     | Location | the name of an Azure region where you can create an Azure Storage account  |
     | Performance | **Standard** |
     | Account kind | **Storage (general purpose v1)** |
     | Replication | **Read-access geo-redundant storage (RA-GRS)** |
 
-1. Click **Next: Networking >**, on the **Networking** tab of the **Create storage account** blade, review the available options, accept the default option **Public endpoint (all networks}** and click **Next: Advanced >**.
+1. Click **Next: Networking >**, on the **Networking** tab of the **Create storage account** blade, review the available options, accept the default option **Public endpoint (all networks}** and click **Next: Data protection >**.
+
+1. On the **Data protection** tab of the **Create storage account** blade, review the available options, accept the defaults, and click **Next: Advanced >**.
 
 1. On the **Advanced** tab of the **Create storage account** blade, review the available options, accept the defaults, click **Review + Create**, wait for the validation process to complete and click **Create**.
 
@@ -156,7 +160,7 @@ In this task, you will create a blob container and upload a blob into it.
 
 1. On the **licenses/LICENSE** blade, review the available options. 
 
-    > **Note**: You have the option to download the blob, change its access tier (it is currently set to **Cool**), acquire a lease, which would change its lease status to **Locked** (it is currently set to **Unlocked**) and protect the blob from being modified or deleted, as well as assign custom metadata (by specifying an arbitrary key and value pairs). You also have the ability to **Edit** the file directly within the Azure portal interface, without downloading it first. You can also create snapshots, as well as generate a SAS token (you will explore this option in the next task). 
+    > **Note**: You have the option to download the blob, change its access tier (it is currently set to **Hot**), acquire a lease, which would change its lease status to **Locked** (it is currently set to **Unlocked**) and protect the blob from being modified or deleted, as well as assign custom metadata (by specifying an arbitrary key and value pairs). You also have the ability to **Edit** the file directly within the Azure portal interface, without downloading it first. You can also create snapshots, as well as generate a SAS token (you will explore this option in the next task). 
 
 #### Task 4: Manage authentication and authorization for Azure Storage
 
@@ -166,7 +170,7 @@ In this task, you will configure authentication and authorization for Azure Stor
 
 1. Open another browser window by using InPrivate mode and navigate to the URL you copied in the previous step. 
 
-1. You should be presented with an XML-formatted message stating **ResourceNotFound**.
+1. You should be presented with an XML-formatted message stating **ResourceNotFound** or **PublicAccessNotPermitted**.
 
     > **Note**: This is expected, since the container you created has the public access level set to **Private (no anonymous access)**.
 
@@ -191,7 +195,7 @@ In this task, you will configure authentication and authorization for Azure Stor
 
 1. Open another browser window by using InPrivate mode and navigate to the URL you copied in the previous step. 
 
-    > **Note**: If you are using Microsoft Edge or Internet Explorer, you should be presented with the **The MIT License (MIT)** page. If you are using Chrome or Firefox, you should be able to view the content of the file by downloading it and opening it with Notepad.
+    > **Note**: If you are using Microsoft Edge or Internet Explorer, you should be presented with the **The MIT License (MIT)** page. If you are using Chrome, Microsoft Edge (Chromium) or Firefox, you should be able to view the content of the file by downloading it and opening it with Notepad.
 
     > **Note**: This is expected, since now your access is authorized based on the newly generated the SAS token. 
 
@@ -205,9 +209,9 @@ In this task, you will configure authentication and authorization for Azure Stor
 
 1. On the **az104-07-container** blade, click **Access Control (IAM)**.
 
-1. In the **Add a role assignment** section, click **Add**.
+1. In the **Add** section, click **Add a role assignment**.
 
-1. On the **Add role administrator** blade, specify the following settings:
+1. On the **Add role assignment** blade, specify the following settings:
 
     | Setting | Value |
     | --- | --- |
@@ -217,6 +221,8 @@ In this task, you will configure authentication and authorization for Azure Stor
 
 1. Save the change and return to the **Overview** blade of the **az104-07-container** container and verify that you can access to container again.
 
+    > **Note**: It might take about 5 minutes for the change to take effect.
+    
 #### Task 5: Create and configure an Azure Files shares
 
 In this task, you will create and configure Azure Files shares.

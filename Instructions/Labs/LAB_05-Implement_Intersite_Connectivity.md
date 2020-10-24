@@ -19,6 +19,10 @@ In this lab, you will:
 + Task 2: Configure local and global virtual network peering
 + Task 3: Test intersite connectivity 
 
+## Estimated timing: 30 minutes
+
+### Instructions
+
 #### Task 1: Provision the lab environment
 
 In this task, you will deploy three virtual machines, each into a separate virtual network, with two of them in the same Azure region and the third one in another Azure region. 
@@ -42,6 +46,8 @@ In this task, you will deploy three virtual machines, each into a separate virtu
 
    New-AzResourceGroup -Name $rgName -Location $location
    ```
+   >**Note**: In order to identify Azure regions, from a PowerShell session in Cloud Shell, run **(Get-AzLocation).Location**
+   
 1. From the Cloud Shell pane, run the following to create the first virtual network and deploy a virtual machine into it by using the template and parameter files you uploaded:
 
    ```pwsh
@@ -195,7 +201,7 @@ In this task, you will test connectivity between virtual machines on the three v
 1. In the Windows PowerShell console window, run the following to test connectivity to **az104-05-vm2** (which has the private IP address of **10.52.0.4**):
 
    ```pwsh
-   Test-NetConnection -ComputerName 10.51.0.4 -Port 3389 -InformationLevel 'Detailed'
+   Test-NetConnection -ComputerName 10.52.0.4 -Port 3389 -InformationLevel 'Detailed'
    ```
 1. Switch back to the Azure portal on your lab computer and navigate back to the **Virtual machines** blade. 
 

@@ -22,6 +22,8 @@ In this lab, you will:
 + Task 5: Review Azure Monitor functionality
 + Task 6: Review Azure Log Analytics functionality
 
+## Estimated timing: 45 minutes
+
 ## Instructions
 
 ### Exercise 1
@@ -62,25 +64,34 @@ In this task, you will deploy a virtual machine that will be used to test monito
       -AsJob
    ```
 
+    >**Note**: Do not wait for the deployment to complete but instead proceed to the next task. The deployment should take about 3 minutes.
+    
+#### Task 2: Register the Microsoft.Insights and Microsoft.AlertsManagement resource providers.
+
+1. From the Cloud Shell pane, run the following to register the Microsoft.Insights and Microsoft.AlertsManagement resource providers.
+
+   ```pwsh
+   Register-AzResourceProvider -ProviderNamespace Microsoft.Insights
+   
+   Register-AzResourceProvider -ProviderNamespace Microsoft.AlertsManagement
+   ```
+
 1. Minimize Cloud Shell pane (but do not close it).
 
-    >**Note**: Do not wait for the deployment to complete but instead proceed to the next task. The deployment should take about 3 minutes.
-
-#### Task 2: Create and configure an Azure Log Analytics workspace and Azure Automation-based solutions
+#### Task 3: Create and configure an Azure Log Analytics workspace and Azure Automation-based solutions
 
 In this task, you will create and configure an Azure Log Analytics workspace and Azure Automation-based solutions
 
 1. In the Azure portal, search for and select **Log Analytics workspaces** and, on the **Log Analytics workspaces** blade, click **+ Add**.
 
-1. On the **Log Analytics workspace** blade, ensure that the **Create New** option is selected, specify the following settings, and click **OK**:
+1. On the **Basics** tab of the **Create Log Analytics workspace** blade, the following settings, click **Review + Create** and then click **Create**:
 
     | Settings | Value |
     | --- | --- |
-    | Log Analytics Workspace | any unique name |
     | Subscription | the name of the Azure subscription you are using in this lab |
     | Resource group | the name of a new resource group **az104-11-rg1** |
-    | Location | the name of the Azure region into which you deployed the virtual machine in the previous task |
-    | Pricing tier | **Pay-as-you-go** |
+    | Log Analytics Workspace | any unique name |    
+    | Region | the name of the Azure region into which you deployed the virtual machine in the previous task |
 
     >**Note**: Make sure that you specify the same region into which you deployed virtual machines in the previous task.
 
@@ -116,7 +127,7 @@ In this task, you will create and configure an Azure Log Analytics workspace and
 
     >**Note**: Wait for the installation to complete. This might take about 5 minutes.
 
-#### Task 3: Review default monitoring settings of Azure virtual machines
+#### Task 4: Review default monitoring settings of Azure virtual machines
 
 In this task, you will review default monitoring settings of Azure virtual machines
 
@@ -124,73 +135,69 @@ In this task, you will review default monitoring settings of Azure virtual machi
 
 1. On the **az104-11-vm0** blade, in the **Monitoring** section, click **Metrics**.
 
-1. On the **az104-11-vm0 - Metrics** blade, on the default chart, note that the only available **METRICS NAMESPACE** is **Virtual Machine Host**.
+1. On the **az104-11-vm0 | Metrics** blade, on the default chart, note that the only available **Metrics Namespace** is **Virtual Machine Host**.
 
     >**Note**: This is expected, since no guest-level diagnostic settings have been configured yet.
 
-1. In the **METRICS** drop-down list, review the list of available metrics.
+1. In the **Metric** drop-down list, review the list of available metrics.
 
     >**Note**: The list includes a range of CPU, disk, and network-related metrics that can be collected from the virtual machine host, without having access into guest-level metrics.
 
-1. In the **METRICS** drop-down list, select **Percentage CPU**, in the **AGGREGATION** drop-down list, select **Avg**, and review the resulting chart. 
+1. In the **Metric** drop-down list, select **Percentage CPU**, in the **Aggregation** drop-down list, select **Avg**, and review the resulting chart. 
 
-#### Task 4: Configure Azure virtual machine diagnostic settings
+#### Task 5: Configure Azure virtual machine diagnostic settings
 
 In this task, you will configure Azure virtual machine diagnostic settings.
 
 1. On the **az104-11-vm0** blade, in the **Monitoring** section, click **Diagnostic settings**.
 
-1. On the **Overview** tab of the **az104-11-vm0 - Diagnostic settings** blade, click **Enable guest-level monitoring**.
+1. On the **Overview** tab of the **az104-11-vm0 | Diagnostic settings** blade, click **Enable guest-level monitoring**.
 
     >**Note**: Wait for the operation to take effect. This might take about 3 minutes.
 
-1. Switch to the **Performance counters** tab of the **az104-11-vm0 - Diagnostic settings** blade and review the available counters.
+1. Switch to the **Performance counters** tab of the **az104-11-vm0 | Diagnostic settings** blade and review the available counters.
 
     >**Note**: By default, CPU, memory, disk, and network counters are enabled. You can switch to the **Custom** view for more detailed listing.
 
-1. Switch to the **Logs** tab of the **az104-11-vm0 - Diagnostic settings** blade and review the available event log collection options.
+1. Switch to the **Logs** tab of the **az104-11-vm0 | Diagnostic settings** blade and review the available event log collection options.
 
     >**Note**: By default, log collection includes critical, error, and warning entries from the Application Log and System log, as well as Audit failure entries from the Security log. Here as well you can switch to the **Custom** view for more detailed configuration settings.
 
-1. On the **az104-11-vm0** blade, in the **Monitoring** section, click **Logs**. 
+1. On the **az104-11-vm0** blade, in the **Monitoring** section, click **Logs** and then click **Enable**. 
 
 1. On the **az104-11-vm0 - Logs** blade, ensure that the Log Analytics workspace you created earlier in this lab is selected in the **Choose a Log Analytics Workspace** drop-down list and click **Enable**.
 
-1. On the **az104-11-vm0 - Logs** blade, click **Enable**, select the Log Analytics workspace you created earlier in this lab from the **Choose a Log Analytics Workspace** drop-down list, and click **Enable** again.
-
     >**Note**: Do not wait for the operation to complete but instead proceed to the next step. The operation might take about 5 minutes.
 
-1. On the **az104-11-vm0 - Logs** blade, in the **Monitoring** section, click **Metrics**.
+1. On the **az104-11-vm0 | Logs** blade, in the **Monitoring** section, click **Metrics**.
 
-1. On the **az104-11-vm0 - Metrics** blade, on the default chart, note that at this point, the **METRICS NAMESPACE** drop-down list, in addition to the **Virtual Machine Host** entry includes also the **Guest (classic)** entry.
+1. On the **az104-11-vm0 | Metrics** blade, on the default chart, note that at this point, the **Metrics Namespace** drop-down list, in addition to the **Virtual Machine Host** entry includes also the **Guest (classic)** entry.
 
     >**Note**: This is expected, since you enabled guest-level diagnostic settings.
 
-1. In the **METRICS** drop-down list, review the list of available metrics.
+1. In the **Metric** drop-down list, review the list of available metrics.
 
     >**Note**: The list includes additional guest-level metrics not available when relying on the host-level monitoring only. 
 
-1. In the **METRICS** drop-down list, select **Memory\Available Bytes**, in the **AGGREGATION** drop-down list, select **Avg**, and review the resulting chart. 
+1. In the **Metric** drop-down list, select **Memory\Available Bytes**, in the **Aggregation** drop-down list, select **Avg**, and review the resulting chart. 
 
-#### Task 5: Review Azure Monitor functionality
+#### Task 6: Review Azure Monitor functionality
 
-1. In the Azure portal, search for and select **Monitor** and, on the **Monitor - Overview** blade, click **Metrics**.
-
-1. In the chart pane on the right side of the blade, in the **SCOPE** drop-down list, click **+ Select a scope**.
+1. In the Azure portal, search for and select **Monitor** and, on the **Monitor | Overview** blade, click **Metrics**.
 
 1. On the **Select a scope** blade, on the **Browse** tab, navigate to the **az104-11-rg0** resource group, expand it, select the **az104-11-vm0** virtual machine within that resource group, and click **Apply**.
 
     >**Note**: This gives you the same view and options as those available from the **az104-11-vm0 - Metrics** blade.
 
-1. On the **Monitor - Metrics** blade, click **New alert rule**.
+1. In the **Metric** drop-down list, select **Percentage CPU**, in the **Aggregation** drop-down list, select **Avg**, and review the resulting chart.
+
+1. On the **Monitor | Metrics** blade, click **New alert rule**.
 
     >**Note**: Creating an alert rule from Metrics is not supported for metrics from the Guest (classic) metric namespace. This can be accomplished by using Azure Resource Manager templates, as described in the document [Send Guest OS metrics to the Azure Monitor metric store using a Resource Manager template for a Windows virtual machine](https://docs.microsoft.com/en-us/azure/azure-monitor/platform/collect-custom-metrics-guestos-resource-manager-vm)
 
-1. On the **Create rule** blade, in the **RESOURCE** section, click **Select**, on the **Select a resource** blade, navigate to the **az104-11-vm0** virtual machine entry, select the checkbox next to it, and click **Done**. 
+1. On the **Create alert rule** blade, in the **Condition** section, click the existing condition. 
 
-1. On the **Create rule** blade, in the **CONDITION** section, click **Add**. 
-
-1. On the **Configure signal logic** blade, in the list of signals, click **Percentage CPU**, in the **Alert logic** section, specify the following settings (leave others with their default values) and click **Done**:
+1. On the **Configure signal logic** blade, in the list of signals, in the **Alert logic** section, specify the following settings (leave others with their default values) and click **Done**:
 
     | Settings | Value |
     | --- | --- |
@@ -201,29 +208,26 @@ In this task, you will configure Azure virtual machine diagnostic settings.
     | Aggregation granularity (Period) | **1 minute** |
     | Frequency of evaluation | **Every 1 Minute** |
 
-1. On the **Create rule** blade, in the **ACTION GROUPS (optional)** section, click **Create**.
+1. On the **Create alert rule** blade, in the **Action group** section, click **Select action group** and then click the **+ Create action group** button.
 
-1. On the **Add action group** blade, specify the following settings (leave others with their default values):
+1. On the **Basics** tab of the **Create action group** blade, specify the following settings (leave others with their default values) and select **Next: Notifications > **:
 
     | Settings | Value |
     | --- | --- |
     | Action group name | **az104-11-ag1** |
-    | Short name | **az104-11-ag1** |
+    | Display name | **az104-11-ag1** |
     | Subscription | the name of the Azure subscription you are using in this lab |
     | Resource group | **az104-11-rg1** |
 
-1. On the **Add action group** blade, in the **Actions** section, specify the following settings (leave others with their default values):
+1. On the **Notifications** tab of the **Create action group** blade, in the **Notification type** drop-down list, select **Email/SMS/Push/Voice**. 
 
-    | Settings | Value |
-    | --- | --- |
-    | Action group name | **az104-11-ag1 email** |
-    | Action Type | **Email/SMS/Push/Voice** |
+1. On the **Email/SMS/Push/Voice** blade, select the **Email** checkbox, type your email address in the **Email** textbox, leave others with their default values, click **OK**, back on the **Notifications** tab of the **Create action group** blade, in the **Name** text box, type **admin email** and select **Next: Actions  >**:
 
-1. In the **az104-11-ag1 email** action row, click **Edit details**
+1. On the **Basics** tab of the **Create action group** blade, review items available in the **Action type** drop-down list and select **Review + create**.
 
-1. On the **Email/SMS/Push/Voice** blade, select the **Email** checkbox, type your email address in the **Email** textbox, leave others with their default values, click **OK**, and back on the **Add action group** blade, click **OK** again.
+1. On the **Review + create** tab of the **Create action group** blade, select **Create**. 
 
-1. Back on the **Create rule** blade, specify the following settings (leave others with their default values):
+1. Back on the **Create alert rule** blade, in the **Alert rule details** section, specify the following settings (leave others with their default values):
 
     | Settings | Value |
     | --- | --- |
@@ -248,7 +252,7 @@ In this task, you will configure Azure virtual machine diagnostic settings.
 
 1. Within the Remote Desktop session, click **Start**, expand the **Windows System** folder, and click **Command Prompt**.
 
-1. From the Command Prompt, run the following to copy the restore the **hosts** file to the original location:
+1. From the Command Prompt, run the following to trigger increased CPU utilization on the **az104-11-vm0** Azure VM:
 
    ```
    for /l %a in (0,0,1) do echo a
@@ -266,7 +270,7 @@ In this task, you will configure Azure virtual machine diagnostic settings.
 
 1. On the **All Alerts** blade, review generated alerts.
 
-#### Task 6: Review Azure Log Analytics functionality
+#### Task 7: Review Azure Log Analytics functionality
 
 1. In the Azure portal, navigate back to the **Monitor** blade, click **Logs**. 
 
@@ -274,7 +278,19 @@ In this task, you will configure Azure virtual machine diagnostic settings.
 
 1. On the **Select a scope** blade, navigate to the **az104-11-rg0** resource group, expand it, select **a104-11-vm0**, and click **Apply**.
 
-1. Click **Example queries** in the toolbar, in the **Get started with sample queries** pane, review each tab, locate **Virtual machine available memory**, and click **Run**.
+1. In the query window, paste the following query and click **Run**:
+
+   ```
+   // Virtual Machine available memory
+   // Chart the VM's available memory over the last hour.
+   InsightsMetrics
+   | where TimeGenerated > ago(1h)
+   | where Name == "AvailableMB"
+   | project TimeGenerated, Name, Val
+   | render timechart
+   ```
+
+1. Click **Example queries** in the toolbar, in the **Get started with sample queries** pane, review each tab, locate **Track VM availability**, and click **Run**.
 
 1. Review the resulting chart and remove the line containing the following text:
 
@@ -297,8 +313,6 @@ In this task, you will configure Azure virtual machine diagnostic settings.
 1. If any data is available, in the **Update** pane, click **See in query editor**.
 
     >**Note**: You might need to wait a few minutes before the update data becomes available.
-
-1. Examine output displayed in the query results.
 
 1. Click **Example queries** in the toolbar, in the **Get started with sample queries** pane, review each tab, locate **Virtual machine free disk space**, and click **Run**.
 

@@ -23,6 +23,8 @@ In this lab, you will:
 + Task 6: Perform file recovery by using Azure virtual machine snapshots (optional)
 + Task 7: Review the Azure Recovery Services soft delete functionality (optional)
 
+## Estimated timing: 50 minutes
+
 ## Instructions
 
 ### Exercise 1
@@ -118,7 +120,7 @@ In this task, you will implement Azure virtual-machine level backup.
 
 1. On the **Backup Goal** blade, click **Backup**.
 
-1. On the **Backup policy**, review the **DefaultPolicy** settings, and, in the **Choose backup policy** drop-down list, select **Create New**.
+1. On the **Backup policy**, review the **DefaultPolicy** settings and select **Create a new policy**.
 
 1. Define a new backup policy with the following settings (leave others with their default values):
 
@@ -130,7 +132,7 @@ In this task, you will implement Azure virtual-machine level backup.
     | Timezone | the name of your local time zone |
     | Retain instant recovery snapshot(s) for | **2** Days(s) |
 
-1. Click **OK** to create the policy. This will automatically transition to the **Items to backup** step and open the **Select virtual machines** blade.
+1. Click **OK** to create the policy and then, in the **Virtual Machines** section, select **Add**.
 
 1. On the **Select virtual machines** blade, select **az-104-10-vm0**, click **OK**, and, back on the **Backup** blade, click **Enable backup**.
 
@@ -269,7 +271,7 @@ In this task, you will perform file restore by using Azure Recovery Services age
    robocopy [recovery_volume]:\Windows\System32\drivers\etc C:\Windows\system32\drivers\etc hosts /r:1 /w:1
    ```
 
-1. Switch back to the **Recover Data Wizard** and, on the **Browse and Recover File, click **Unmount** and, when prompted to confirm, click **Yes**. 
+1. Switch back to the **Recover Data Wizard** and, on the **Browse and Recover Files**, click **Unmount** and, when prompted to confirm, click **Yes**. 
 
 1. Terminate the Remote Desktop session.
 
@@ -319,7 +321,11 @@ In this task, you will restore a file from the Azure virtual machine-level snaps
 
     >**Note**: The script mounts the disks from the selected recovery point as local drives within the operating system from which the script is run.
 
-1. Click **Download** and, when prompted whether to run or save **IaaSVMILRExeForWindows.exe**, click **Run**.
+1. Click **Download** and, when prompted whether to run or save **IaaSVMILRExeForWindows.exe**, click **Save**.
+
+1. Start File Explorer, navigate to the **Downloads** folder, right-click the newly downloaded file, select **Properties** in the right-click menu, in the **Properties** dialog box, select the **Unblock** checkbox, and click **OK**.
+
+1. Back in the File Explorer window, double-click the newly downloaded file.
 
 1. When prompted to provide the password from the portal, copy the password from the **Password to run the script** text box on the **File Recovery** blade, paste it at the Command Prompt, and press **Enter**.
 

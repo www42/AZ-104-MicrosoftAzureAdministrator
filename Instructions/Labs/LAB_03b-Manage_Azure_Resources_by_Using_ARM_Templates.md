@@ -18,6 +18,8 @@ In this lab, you will:
 + Task 2: Create an Azure managed disk by using an ARM template
 + Task 3: Review the ARM template-based deployment of the managed disk
 
+## Estimated timing: 20 minutes
+
 ## Instructions
 
 ### Exercise 1
@@ -34,7 +36,7 @@ In this task, you will create an Azure disk resource by using an Azure Resource 
 
 1. On the **az104-03a-rg1** resource group blade, in the **Settings** section, click **Deployments**.
 
-1. On the **az104-03a-rg1 - Deployments** blade, click the first entry in the list of deployments and then click **Template**.
+1. On the **az104-03a-rg1 - Deployments** blade, click the first entry in the list of deployments and then click **View template**.
 
     >**Note**: Review the content of the template and note that you have the option to download it to the local computer, add it to the library, and re-deploy it.
 
@@ -46,7 +48,7 @@ In this task, you will create an Azure disk resource by using an Azure Resource 
 
 #### Task 2: Create an Azure managed disk by using an ARM template
 
-1. In the Azure portal, search for and select **Template deployment (deploy using custom templates)**.
+1. In the Azure portal, search for and select **Template deployment (Deploy a custom template)**.
 
 1. On the **Custom deployment** blade, click **Build your own template in the editor**.
 
@@ -67,25 +69,17 @@ In this task, you will create an Azure disk resource by using an Azure Resource 
    ```
 
    ```json
-   },
    "hyperVGeneration": {
        "defaultValue": "V1",
        "type": "String"
+   },      
    ```
 
    ```json
-   "osType": "[parameters('osType')]"
+   "osType": "[parameters('osType')]",
    ```
 
     >**Note**: These parameters are removed since they are not applicable to the current deployment. In particular, sourceResourceId, sourceUri, osType, and hyperVGeneration parameters are applicable to creating an Azure disk from an existing VHD file.
-
-1. In addition, remove the trailing comma from the following line:
-
-   ```json
-   "diskSizeGB": "[parameters('diskSizeGb')]",
-   ```
-
-    >**Note**: This is necessary to account for the syntax rules of JSON-based ARM templates.
 
 1. Save the changes.
 
@@ -105,8 +99,10 @@ In this task, you will create an Azure disk resource by using an Azure Resource 
     | Sku | **Standard_LRS** |
     | Disk Size Gb | **32** |
     | Create Option | **empty** |
+    | Disk Encryption Set Type | **EncryptionAtRestWithPlatformKey** |
+    | Network Access Policy | **AllowAll** |
 
-1. Select the checkbox **I agree to the terms and conditions stated above** and click **Purchase**.
+1. Select **Review + Create** and then select **Create**.
 
 1. Verify that the deployment completed successfully.
 

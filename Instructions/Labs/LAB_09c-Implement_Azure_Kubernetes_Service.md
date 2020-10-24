@@ -19,17 +19,40 @@ In this lab, you will:
 + Task 2: Deploy pods into the Azure Kubernetes Service cluster
 + Task 3: Scale containerized workloads in the Azure Kubernetes service cluster
 
+## Estimated timing: 40 minutes
+
 ## Instructions
 
 ### Exercise 1
 
-#### Task 1: Deploy an Azure Kubernetes Service cluster
+#### Task 1: Register the Microsoft.Kubernetes and Microsoft.KubernetesConfiguration resource providers.
 
-In this task, you will deploy an Azure Kubernetes Services cluster by using the Azure portal.
+In this task, you will register resource providers necessary to deploy an Azure Kubernetes Services cluster.
 
 1. Sign in to the [Azure portal](https://portal.azure.com).
 
-1. In the Azure portal, search for locate **Kubernetes services** and then, on the **Kubernetes services** blade, click **+ Add**. 
+1. In the Azure portal, open the **Azure Cloud Shell** by clicking on the icon in the top right of the Azure Portal.
+
+1. If prompted to select either **Bash** or **PowerShell**, select **PowerShell**. 
+
+    >**Note**: If this is the first time you are starting **Cloud Shell** and you are presented with the **You have no storage mounted** message, select the subscription you are using in this lab, and click **Create storage**. 
+
+1. From the Cloud Shell pane, run the following to register the Microsoft.Insights and Microsoft.AlertsManagement resource providers.
+
+   ```pwsh
+   Register-AzResourceProvider -ProviderNamespace Microsoft.Kubernetes
+   
+   Register-AzResourceProvider -ProviderNamespace Microsoft.KubernetesConfiguration
+   ```
+
+1. Close the Cloud Shell pane.   
+
+
+#### Task 2: Deploy an Azure Kubernetes Service cluster
+
+In this task, you will deploy an Azure Kubernetes Services cluster by using the Azure portal.
+
+1. In the Azure portal, search for locate **Kubernetes services** and then, on the **Kubernetes services** blade, click **+ Add**, and then click **+ Add Kubernetes cluster**. 
 
 1. On the **Basics** tab of the **Create Kubernetes cluster** blade, specify the following settings (leave others with their default values):
 
@@ -40,11 +63,10 @@ In this task, you will deploy an Azure Kubernetes Services cluster by using the 
     | Kubernetes cluster name | **az104-9c-aks1** |
     | Region | the name of a region where you can provision a Kubernetes cluster |
     | Kubernetes version | accept the default |
-    | DNS name prefix | any valid, globally unique DNS host name |
     | Node size | accept the default |
     | Node count | **1** |
 
-1. Click **Next: Scale >** and, on the **Scale** tab of the **Create Kubernetes cluster** blade, specify the following settings (leave others with their default values):
+1. Click **Next: Node Pools >** and, on the **Node Pools** tab of the **Create Kubernetes cluster** blade, specify the following settings (leave others with their default values):
 
     | Setting | Value |
     | ---- | ---- |
@@ -63,18 +85,17 @@ In this task, you will deploy an Azure Kubernetes Services cluster by using the 
 
     | Setting | Value |
     | ---- | ---- |
-    | HTTP application routing | **No** |
-    | Load balancer | **Standard** |
-    | Network configuration | **Advanced** |
+    | Network configuration | **kubenet** |
+    | DNS name prefix | any valid, globally unique DNS host name |
 
-1. Click **Next: Monitoring >**, on the **Monitoring** tab of the **Create Kubernetes cluster** blade, set **Enable container monitoring** to **No**, click **Review + create** and then click **Create**. 
+1. Click **Next: Integration >**, on the **Integration** tab of the **Create Kubernetes cluster** blade, set **Container monitoring** to **Disabled**, click **Review + create** and then click **Create**. 
 
     >**Note**: In production scenarios, you would want to enable monitoring. Monitoring is disabled in this case since it is not covered in the lab. 
 
     >**Note**: Wait for the deployment to complete. This should take about 10 minutes.
 
 
-#### Task 2: Deploy pods into the Azure Kubernetes Service cluster
+#### Task 3: Deploy pods into the Azure Kubernetes Service cluster
 
 In this task, you will deploy a pod into the Azure Kubernetes Service cluster.
 
@@ -86,9 +107,7 @@ In this task, you will deploy a pod into the Azure Kubernetes Service cluster.
 
 1. In the Azure portal, open the **Azure Cloud Shell** by clicking on the icon in the top right of the Azure Portal.
 
-1. If prompted to select either **Bash** or **PowerShell**, select **Bash**. 
-
-    >**Note**: If this is the first time you are starting **Cloud Shell** and you are presented with the **You have no storage mounted** message, select the subscription you are using in this lab, and click **Create storage**. 
+1. Switch the **Azure Cloud Shell** to **Bash** (black background).
 
 1. From the Cloud Shell pane, run the following to retrieve the credentials to access the AKS cluster:
 
@@ -144,7 +163,7 @@ In this task, you will deploy a pod into the Azure Kubernetes Service cluster.
 
 1. Open a browser window and navigate to the IP address you obtained in the previous step. Verify that the browser page displays the **Welcome to nginx!** message.
 
-#### Task 3: Scale containerized workloads in the Azure Kubernetes service cluster
+#### Task 4: Scale containerized workloads in the Azure Kubernetes service cluster
 
 In this task, you will scale horizontally the number of pods and then number of cluster nodes.
 

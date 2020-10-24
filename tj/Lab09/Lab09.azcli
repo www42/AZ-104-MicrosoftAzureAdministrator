@@ -1,0 +1,28 @@
+az account list
+az logout
+az login
+
+az aks list -o table
+
+RESOURCE_GROUP='az104-09c-rg1'
+AKS_CLUSTER='az104-9c-aks1'
+
+az aks get-credentials --resource-group $RESOURCE_GROUP --name $AKS_CLUSTER
+kubectl config get-contexts
+kubectl config current-context
+
+kubectl create deployment nginx-deployment --image=nginx
+kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer
+kubectl scale --replicas=2  deployment/nginx-deployment
+kubectl scale --replicas=10 deployment/nginx-deployment
+
+az aks scale --resource-group $RESOURCE_GROUP --name $AKS_CLUSTER --node-count 2
+
+kubectl get nodes
+kubectl get deployment
+kubectl get service
+kubectl get pods
+kubectl get pods --all-namespaces
+kubectl get pods -o=custom-columns=NODE:.spec.nodeName,POD:.metadata.name
+
+kubectl apply -f azure-vote.yaml

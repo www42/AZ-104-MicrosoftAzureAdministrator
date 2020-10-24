@@ -23,6 +23,8 @@ In this lab, you will:
 + Task 5: Configure Azure DNS for internal name resolution
 + Task 6: Configure Azure DNS for external name resolution
 
+## Estimated timing: 40 minutes
+
 ## Instructions
 
 ### Exercise 1
@@ -40,7 +42,7 @@ In this task, you will create a virtual network with multiple subnets by using t
     | Setting | Value |
     | --- | --- |
     | Subscription | the name of the Azure subscription you will be using in this lab |
-    | Resource Group | the name of a new resource group **az104-04-rg1** |
+    | Resource Group | the name of a **new** resource group **az104-04-rg1** |
     | Name | **az104-04-vnet1** |
     | Region | the name of any Azure region available in the subscription you will use in this lab |
     | IPv4 address space | **10.40.0.0/20** |
@@ -113,7 +115,7 @@ In this task, you will configure static assignment of public and private IP addr
 
 1. On the **ipconfig1** blade, set **Assignment** to **Static**, leave the default value of **IP address** set to **10.40.0.4**.
 
-1. On the **ipconfig1** blade, set **Public IP address** to **Enabled** and then click **IP address - Configure required settings**. 
+1. On the **ipconfig1** blade, in the **Public IP address settings** section, select **Associate** and then click **IP address - Configure required settings**. 
 
 1. On the **Choose public IP address blade**, click **+ Create new** and create a new public IP address with the following settings:
 
@@ -183,7 +185,7 @@ In this task, you will configure network security groups in order to allow for r
 
 1. Navigate back to the **az104-04-vm0** virtual machine blade.
 
-    >**Note**: Now verify that you can successfully to the target virtual machine and sign in by using the **Student** username and **Pa55w.rd1234** password.
+    >**Note**: Now verify that you can successfully connect to the target virtual machine and sign in by using the **Student** username and **Pa55w.rd1234** password.
 
 1. On the **az104-04-vm0** blade, click **Connect**, click **Connect**, in the drop-down menu, click **RDP**, on the **Connect with RDP** blade, click **Download RDP File** and follow the prompts to start the Remote Desktop session.
 
@@ -226,7 +228,7 @@ In this task, you will configure DNS name resolution within a virtual network by
 
     >**Note:** Wait for the virtual network link to be created. This should take less than 1 minute.
 
-1. On the **contoso.org** private DNS zone blade, in the **Settings** section, click **Overview**
+1. On the **contoso.org** private DNS zone blade, in the sidebar, click **Overview**
 
 1. Verify that the DNS records for **az104-04-vm0** and **az104-04-vm1** appear in the list of record sets as **Auto registered**.
 
@@ -245,6 +247,10 @@ In this task, you will configure DNS name resolution within a virtual network by
 
 In this task, you will configure external DNS name resolution by using Azure public DNS zones.
 
+1. In the web browser, open a new tab and navigate to https://www.godaddy.com/domains/domain-name-search.
+
+1. Use the domain name search to identify a domain name which is not in use. 
+
 1. In the Azure portal, search for and select **DNS zones** and, on the **DNS zones** blade, click **+ Add**.
 
 1. Create a DNS zone with the following settings (leave others with their default values):
@@ -253,13 +259,13 @@ In this task, you will configure external DNS name resolution by using Azure pub
     | --- | --- |
     | Subscription | the name of the Azure subscription you are using in this lab |
     | Resource Group | **az104-04-rg1** |
-    | Name | **contoso.org** |
+    | Name | the DNS domain name you identified earlier in this task |
 
     >**Note**: Wait for the DNS zone to be created. This should take about 2 minutes. 
 
-1. Click **Go to resource** to open the **contoso.org** DNS zone blade. 
+1. Click **Go to resource** to open the blade of the newly created DNS zone.
 
-1. On the **contoso.org** DNS zone blade, click **+ Record set**.
+1. On the DNS zone blade, click **+ Record set**.
 
 1. Add a record set with the following settings (leave others with their default values):
 
@@ -283,21 +289,21 @@ In this task, you will configure external DNS name resolution by using Azure pub
     | TTL unit | **Hours** |
     | IP address | the public IP address of **az104-04-vm1** which you identified in the third exercise of this lab |
 
-1. On the **contoso.org** DNS zone blade, note the name of the **Name server 1** entry.
+1. On the DNS zone blade, note the name of the **Name server 1** entry.
 
 1. In the Azure portal, open the **PowerShell** session in **Cloud Shell** by clicking on the icon in the top right of the Azure Portal.
 
-1. From the Cloud Shell pane, run the following to test external name resolution of the **az104-04-vm0** DNS record set in the newly created DNS zone (replace the placeholder `[Name server 1]` with the name of **Name server 1** you noted earlier in this task):
+1. From the Cloud Shell pane, run the following to test external name resolution of the **az104-04-vm0** DNS record set in the newly created DNS zone (replace the placeholder `[Name server 1]` including the [] brackets, with the name of **Name server 1** you noted earlier in this task and the `[domain name] placeholder with the name of the DNS domain you created earlier in this task):
 
    ```pwsh
-   nslookup az104-04-vm0.contoso.org [Name server 1]
+   nslookup az104-04-vm0.[domain name] [Name server 1]
    ```
 1. Verify that the output of the command includes the public IP address of **az104-04-vm0**.
 
-1. From the Cloud Shell pane, run the following to test external name resolution of the **az104-04-vm1** DNS record set in the the newly created DNS zone (replace the placeholder `[Name server 1]` with the name of **Name server 1** you noted earlier in this task):
+1. From the Cloud Shell pane, run the following to test external name resolution of the **az104-04-vm1** DNS record set in the the newly created DNS zone (replace the placeholder `[Name server 1]` with the name of **Name server 1** you noted earlier in this task and the `[domain name] placeholder with the name of the DNS domain you created earlier in this task):
 
    ```pwsh
-   nslookup az104-04-vm1.contoso.org [Name server 1]
+   nslookup az104-04-vm1.[domain name] [Name server 1]
    ```
 1. Verify that the output of the command includes the public IP address of **az104-04-vm1**.
 
