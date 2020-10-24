@@ -42,7 +42,9 @@ In this task, you will deploy an Azure virtual machine that you will use later i
 
 1. In the toolbar of the Cloud Shell pane, click the **Upload/Download files** icon, in the drop-down menu, click **Upload** and upload the files **\\Allfiles\\Module_07\\az104-07-vm-template.json** and **\\Allfiles\\Module_07\\az104-07-vm-parameters.json** into the Cloud Shell home directory.
 
-1. From the Cloud Shell pane, run the following to create the resource group that will be hosting the virtual machine (replace the `[Azure_region]` placeholder with the name of an Azure region where you intend to deploy the Azure virtual machine):
+1. From the Cloud Shell pane, run the following to create the resource group that will be hosting the virtual machine (replace the `[Azure_region]` placeholder with the name of an Azure region where you intend to deploy the Azure virtual machine)
+
+    >**Note**: To list the names of Azure regions, run `(Get-AzLocation).Location`
 
    ```pwsh
    $location = '[Azure_region]'
@@ -51,7 +53,7 @@ In this task, you will deploy an Azure virtual machine that you will use later i
 
    New-AzResourceGroup -Name $rgName -Location $location
    ```
-1. From the Cloud Shell pane, run the following to deploy thef virtual machine by using the uploaded template and parameter files:
+1. From the Cloud Shell pane, run the following to deploy the virtual machine by using the uploaded template and parameter files:
 
    ```pwsh
    New-AzResourceGroupDeployment `
@@ -216,7 +218,7 @@ In this task, you will configure authentication and authorization for Azure Stor
     | Setting | Value |
     | --- | --- |
     | Role | **Storage Blob Data Owner** |
-    | Assign access to | **Azure AD user, group, or service principal** |
+    | Assign access to | **User, group, or service principal** |
     | Select | the name of your user account |
 
 1. Save the change and return to the **Overview** blade of the **az104-07-container** container and verify that you can access to container again.
