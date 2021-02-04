@@ -48,10 +48,13 @@ In this task, you will create a virtual network with multiple subnets by using t
     | IPv4 address space | **10.40.0.0/20** |
     | Subnet name | **subnet0** |
     | Subnet address range | **10.40.0.0/24** |
+    
+      
+1. Accept the defaults and click **Review and Create**. Let validation occur, and hit **Create** again to submit your deployment.
 
     >**Note:** Wait for the virtual network to be provisioned. This should take less than a minute.
 
-1. On the **Virtual networks** blade, click **Refresh** and click **az104-04-vnet1**.
+1. Once the deployment completes browse for **Virtual Networks** in the portal search bar. Within **Virtual networks** blade, click on the newly created virtual network **az104-04-vnet1**.
 
 1. On the **az104-04-vnet1** virtual network blade, click **Subnets** and then click **+ Subnet**. 
 
@@ -80,7 +83,7 @@ In this task, you will deploy Azure virtual machines into different subnets of t
 
 1. From the Cloud Shell pane, run the following to deploy two virtual machines by using the template and parameter files you uploaded:
 
-   ```pwsh
+   ```powershell
    $rgName = 'az104-04-rg1'
 
    New-AzResourceGroupDeployment `
@@ -115,9 +118,7 @@ In this task, you will configure static assignment of public and private IP addr
 
 1. On the **ipconfig1** blade, set **Assignment** to **Static**, leave the default value of **IP address** set to **10.40.0.4**.
 
-1. On the **ipconfig1** blade, in the **Public IP address settings** section, select **Associate** and then click **IP address - Configure required settings**. 
-
-1. On the **Choose public IP address blade**, click **+ Create new** and create a new public IP address with the following settings:
+1. On the **ipconfig1** blade, in the **Public IP address settings** section, select **Associate**, click **+ Create new**, specify the following settings, and click **OK**:
 
     | Setting | Value |
     | --- | --- |
@@ -238,7 +239,7 @@ In this task, you will configure DNS name resolution within a virtual network by
 
 1. In the Windows PowerShell console window, run the following to test internal name resolution of the **az104-04-vm1** DNS record set in the newly created private DNS zone:
 
-   ```pwsh
+   ```powershell
    nslookup az104-04-vm1.contoso.org
    ```
 1. Verify that the output of the command includes the private IP address of **az104-04-vm1** (**10.40.1.4**).
@@ -295,14 +296,14 @@ In this task, you will configure external DNS name resolution by using Azure pub
 
 1. From the Cloud Shell pane, run the following to test external name resolution of the **az104-04-vm0** DNS record set in the newly created DNS zone (replace the placeholder `[Name server 1]` including the [] brackets, with the name of **Name server 1** you noted earlier in this task and the `[domain name] placeholder with the name of the DNS domain you created earlier in this task):
 
-   ```pwsh
+   ```powershell
    nslookup az104-04-vm0.[domain name] [Name server 1]
    ```
 1. Verify that the output of the command includes the public IP address of **az104-04-vm0**.
 
 1. From the Cloud Shell pane, run the following to test external name resolution of the **az104-04-vm1** DNS record set in the the newly created DNS zone (replace the placeholder `[Name server 1]` with the name of **Name server 1** you noted earlier in this task and the `[domain name] placeholder with the name of the DNS domain you created earlier in this task):
 
-   ```pwsh
+   ```powershell
    nslookup az104-04-vm1.[domain name] [Name server 1]
    ```
 1. Verify that the output of the command includes the public IP address of **az104-04-vm1**.
@@ -315,13 +316,13 @@ In this task, you will configure external DNS name resolution by using Azure pub
 
 1. List all resource groups created throughout the labs of this module by running the following command:
 
-   ```pwsh
+   ```powershell
    Get-AzResourceGroup -Name 'az104-04*'
    ```
 
 1. Delete all resource groups you created throughout the labs of this module by running the following command:
 
-   ```pwsh
+   ```powershell
    Get-AzResourceGroup -Name 'az104-04*' | Remove-AzResourceGroup -Force -AsJob
    ```
 

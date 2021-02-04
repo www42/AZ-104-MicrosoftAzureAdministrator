@@ -46,7 +46,7 @@ In this task, you will deploy an Azure virtual machine that you will use later i
 
     >**Note**: To list the names of Azure regions, run `(Get-AzLocation).Location`
 
-   ```pwsh
+   ```powershell
    $location = '[Azure_region]'
 
    $rgName = 'az104-07-rg0'
@@ -55,7 +55,7 @@ In this task, you will deploy an Azure virtual machine that you will use later i
    ```
 1. From the Cloud Shell pane, run the following to deploy the virtual machine by using the uploaded template and parameter files:
 
-   ```pwsh
+   ```powershell
    New-AzResourceGroupDeployment `
       -ResourceGroupName $rgName `
       -TemplateFile $HOME/az104-07-vm-template.json `
@@ -197,7 +197,7 @@ In this task, you will configure authentication and authorization for Azure Stor
 
 1. Open another browser window by using InPrivate mode and navigate to the URL you copied in the previous step. 
 
-    > **Note**: If you are using Microsoft Edge or Internet Explorer, you should be presented with the **The MIT License (MIT)** page. If you are using Chrome, Microsoft Edge (Chromium) or Firefox, you should be able to view the content of the file by downloading it and opening it with Notepad.
+    > **Note**: If you are using Microsoft Edge, you should be presented with the **The MIT License (MIT)** page. If you are using Chrome, Microsoft Edge (Chromium) or Firefox, you should be able to view the content of the file by downloading it and opening it with Notepad.
 
     > **Note**: This is expected, since now your access is authorized based on the newly generated the SAS token. 
 
@@ -242,7 +242,7 @@ In this task, you will create and configure Azure Files shares.
 
 1. Click the newly created file share and click **Connect**.
 
-1. On the **Connect** blade, ensure that the **Windows** tab is selected, and click **Copy to clipboard**.
+1. On the **Connect** blade, ensure that the **Windows** tab is selected. Below you will find a grey textbox with a script, in the bottom right corner of that box hover over the pages icon and click **Copy to clipboard**.
 
 1. In the Azure portal, search for and select **Virtual machines**, and, in the list of virtual machines, click **az104-07-vm0**.
 
@@ -256,7 +256,7 @@ In this task, you will create and configure Azure Files shares.
 
 1. Replace the content of the **PowerShell Script** pane with the following script and click **Run**:
 
-   ```pwsh
+   ```powershell
    New-Item -Type Directory -Path 'Z:\az104-07-folder'
 
    New-Item -Type File -Path 'Z:\az104-07-folder\az-104-07-file.txt'
@@ -272,7 +272,7 @@ In this task, you will create and configure Azure Files shares.
 
 In this task, you will configure network access for Azure Storage.
 
-1. In the Azure portal, navigate back to the blade of the storage account you created in the first task of this lab and, in the **Settings** section, click **Firewalls and virtual networks**.
+1. In the Azure portal, navigate back to the blade of the storage account you created in the first task of this lab and, in the **Settings** section, click **Networking** and then click **Firewalls and virtual networks**.
 
 1. Click the **Selected networks** option and review the configuration settings that become available once this option is enabled.
 
@@ -294,7 +294,7 @@ In this task, you will configure network access for Azure Storage.
 
 1. From the Cloud Shell pane, run the following to attempt downloading of the LICENSE blob from the **az104-07-container** container of the storage account (replace the `[blob SAS URL]` placeholder with the blob SAS URL you generated in the previous task):
 
-   ```pwsh
+   ```powershell
    Invoke-WebRequest -URI '[blob SAS URL]'
    ```
 1. Verify that the download attempt failed. 
@@ -311,13 +311,13 @@ In this task, you will configure network access for Azure Storage.
 
 1. List all resource groups created throughout the labs of this module by running the following command:
 
-   ```pwsh
+   ```powershell
    Get-AzResourceGroup -Name 'az104-07*'
    ```
 
 1. Delete all resource groups you created throughout the labs of this module by running the following command:
 
-   ```pwsh
+   ```powershell
    Get-AzResourceGroup -Name 'az104-07*' | Remove-AzResourceGroup -Force -AsJob
    ```
 

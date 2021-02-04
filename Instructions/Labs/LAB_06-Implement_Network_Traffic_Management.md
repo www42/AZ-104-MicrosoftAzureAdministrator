@@ -42,11 +42,11 @@ In this task, you will deploy four virtual machines into the same Azure region. 
 
     >**Note**: If this is the first time you are starting **Cloud Shell** and you are presented with the **You have no storage mounted** message, select the subscription you are using in this lab, and click **Create storage**. 
 
-1. In the toolbar of the Cloud Shell pane, click the **Upload/Download files** icon, in the drop-down menu, click **Upload** and upload the files **\\Allfiles\\Module_06\\az104-06-vms-template.json**, **\\Allfiles\\Labs\\06\\az104-06-vm-template.json**, and **\\Allfiles\\Labs\\06\\az104-06-vm-parameters.json** into the Cloud Shell home directory.
+1. In the toolbar of the Cloud Shell pane, click the **Upload/Download files** icon, in the drop-down menu, click **Upload** and upload the files **\\Allfiles\\Labs\\06\\az104-06-vms-template.json**, **\\Allfiles\\Labs\\06\\az104-06-vm-template.json**, and **\\Allfiles\\Labs\\06\\az104-06-vm-parameters.json** into the Cloud Shell home directory.
 
 1. From the Cloud Shell pane, run the following to create the first resource group that will be hosting the first virtual network and the pair of virtual machines (replace the `[Azure_region]` placeholder with the name of an Azure region where you intend to deploy Azure virtual machines)(you can use the "(Get-AzLocation).Location" cmdlet to get the region list):
 
-   ```pwsh
+   ```powershell
    $location = '[Azure_region]'
 
    $rgName = 'az104-06-rg1'
@@ -55,7 +55,7 @@ In this task, you will deploy four virtual machines into the same Azure region. 
    ```
 1. From the Cloud Shell pane, run the following to create the first virtual network and deploy a pair of virtual machines into it by using the template and parameter files you uploaded:
 
-   ```pwsh
+   ```powershell
    New-AzResourceGroupDeployment `
       -ResourceGroupName $rgName `
       -TemplateFile $HOME/az104-06-vms-template.json `
@@ -65,14 +65,14 @@ In this task, you will deploy four virtual machines into the same Azure region. 
 
 1. From the Cloud Shell pane, run the following to create the second resource group that will be hosting the second virtual network and the third virtual machine
 
-   ```pwsh
+   ```powershell
    $rgName = 'az104-06-rg2'
 
    New-AzResourceGroup -Name $rgName -Location $location
    ```
 1. From the Cloud Shell pane, run the following to create the second virtual network and deploy a virtual machine into it by using the template and parameter files you uploaded:
 
-   ```pwsh
+   ```powershell
    New-AzResourceGroupDeployment `
       -ResourceGroupName $rgName `
       -TemplateFile $HOME/az104-06-vm-template.json `
@@ -82,14 +82,14 @@ In this task, you will deploy four virtual machines into the same Azure region. 
    ```
 1. From the Cloud Shell pane, run the following to create the third resource group that will be hosting the third virtual network and the fourth virtual machine:
 
-   ```pwsh
+   ```powershell
    $rgName = 'az104-06-rg3'
 
    New-AzResourceGroup -Name $rgName -Location $location
    ```
 1. From the Cloud Shell pane, run the following to create the third virtual network and deploy a virtual machine into it by using the template and parameter files you uploaded:
 
-   ```pwsh
+   ```powershell
    New-AzResourceGroupDeployment `
       -ResourceGroupName $rgName `
       -TemplateFile $HOME/az104-06-vm-template.json `
@@ -121,17 +121,18 @@ In this task, you will configure local peering between the virtual networks you 
 
     | Setting | Value |
     | --- | --- |
-    | Name of the peering from az104-06-vnet01 to remote virtual network | **az104-06-vnet01_to_az104-06-vnet2** |
+    | This virtual network: Peering link name | **az104-06-vnet01_to_az104-06-vnet2** |
+    | Trafffic to remote virtual network | **Allow (default)** |
+    | Traffic forwarded from remote virtual network | **Block traffic that originates from outside this virtual network** |
+    | Virtual network gateway | **None (default)** |
+    | Remote virtual network: Peering link name | **az104-06-vnet2_to_az104-06-vnet01** |
     | Virtual network deployment model | **Resource manager** |
     | Subscription | the name of the Azure subscription you are using in this lab |
-    | Virtual network | **az104-06-vnet2 (az104-06-rg2)** |
-    | Name of the peering from az104-06-vnet2 to az104-06-vnet01 | **az104-06-vnet2_to_az104-06-vnet01** |
-    | Allow virtual network access from az104-06-vnet01 to az104-06-vnet2 | **Enabled** |
-    | Allow virtual network access from az104-06-vnet2 to az104-06-vnet01 | **Enabled** |
-    | Allow forwarded traffic from az104-06-vnet2 to az104-06-vnet01 | **Disabled** |
-    | Allow forwarded traffic from az104-06-vnet01 to az104-06-vnet2 | **Enabled** |
-    | Allow gateway transit | **(Uncheck Box)** |
-
+    | Virtual network | **az104-06-vnet2** |   
+    | Trafffic to remote virtual network | **Allow (default)** |
+    | Traffic forwarded from remote virtual network | **Allow (default)** |
+    | Virtual network gateway | **None (default)** |
+    
     >**Note**: Wait for the operation to complete.
 
     >**Note**: This step establishes two local peerings - one from az104-06-vnet01 to az104-06-vnet2 and the other from az104-06-vnet2 to az104-06-vnet01.
@@ -144,16 +145,17 @@ In this task, you will configure local peering between the virtual networks you 
 
     | Setting | Value |
     | --- | --- |
-    | Name of the peering from az104-06-vnet01 to remote virtual network | **az104-06-vnet01_to_az104-06-vnet3** |
+    | This virtual network: Peering link name | **az104-06-vnet01_to_az104-06-vnet3** |
+    | Trafffic to remote virtual network | **Allow (default)** |
+    | Traffic forwarded from remote virtual network | **Block traffic that originates from outside this virtual network** |
+    | Virtual network gateway | **None (default)** |
+    | Remote virtual network: Peering link name | **az104-06-vnet3_to_az104-06-vnet01** |
     | Virtual network deployment model | **Resource manager** |
     | Subscription | the name of the Azure subscription you are using in this lab |
-    | Virtual network | **az104-06-vnet3 (az104-06-rg3)** |
-    | Name of the peering from az104-06-vnet3 to az104-06-vnet01 | **az104-06-vnet3_to_az104-06-vnet01** |
-    | Allow virtual network access from az104-06-vnet01 to az104-06-vnet3 | **Enabled** |
-    | Allow virtual network access from az104-06-vnet3 to az104-06-vnet01 | **Enabled** |
-    | Allow forwarded traffic from az104-06-vnet3 to az104-06-vnet01 | **Disabled** |
-    | Allow forwarded traffic from az104-06-vnet01 to az104-06-vnet3 | **Enabled** |
-    | Allow gateway transit | **(Uncheck Box)** |
+    | Virtual network | **az104-06-vnet3** |
+    | Trafffic to remote virtual network | **Allow (default)** |
+    | Traffic forwarded from remote virtual network | **Allow (default)** |
+    | Virtual network gateway | **None (default)** |
 
     >**Note**: This step establishes two local peerings - one from az104-06-vnet01 to az104-06-vnet3 and the other from az104-06-vnet3 to az104-06-vnet01. This completes setting up the hub and spoke topology (with two spoke virtual networks).
 
@@ -250,7 +252,7 @@ In this task, you will configure and test routing between the two spoke virtual 
 
 1. On the **Run Command Script** blade, type the following and click **Run** to install the Remote Access Windows Server role.
 
-   ```pwsh
+   ```powershell
    Install-WindowsFeature RemoteAccess -IncludeManagementTools
    ```
 
@@ -258,7 +260,7 @@ In this task, you will configure and test routing between the two spoke virtual 
 
 1. On the **Run Command Script** blade, type the following and click **Run** to install the Routing role service.
 
-   ```pwsh
+   ```powershell
    Install-WindowsFeature -Name Routing -IncludeManagementTools -IncludeAllSubFeature
 
    Install-WindowsFeature -Name "RSAT-RemoteAccess-Powershell"
@@ -565,13 +567,13 @@ In this task, you will implement an Azure Application Gateway in front of the tw
 
 1. List all resource groups created throughout the labs of this module by running the following command:
 
-   ```pwsh
+   ```powershell
    Get-AzResourceGroup -Name 'az104-06*'
    ```
 
 1. Delete all resource groups you created throughout the labs of this module by running the following command:
 
-   ```pwsh
+   ```powershell
    Get-AzResourceGroup -Name 'az104-06*' | Remove-AzResourceGroup -Force -AsJob
    ```
 

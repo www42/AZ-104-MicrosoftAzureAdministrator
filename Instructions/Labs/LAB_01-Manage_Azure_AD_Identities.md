@@ -31,7 +31,7 @@ In this lab, you will:
 
 In this task, you will create and configure Azure AD users.
 
-    >**Note**: If you have previously used the Trial license for Azure AD Premium on this Azure AD Tenant you will need a new Azure AD Tenant or perform the Task 2 after Task 3 in that new Azure AD tenant.
+>**Note**: If you have previously used the Trial license for Azure AD Premium on this Azure AD Tenant you will need a new Azure AD Tenant or perform the Task 2 after Task 3 in that new Azure AD tenant.
 
 1. In the Azure portal, search for and select **Azure Active Directory**.
 
@@ -97,7 +97,7 @@ In this task, you will create and configure Azure AD users.
 
 In this task, you will create Azure Active Directory groups with assigned and dynamic membership.
 
-1. Back in the Azure portal where you are signed in with your user account, navigate back to the **Overview** blade of the Azure AD tenant and, in the **Manage** section, click **Licenses**.
+1. Back in the Azure portal where you are signed in with your **user account**, navigate back to the **Overview** blade of the Azure AD tenant and, in the **Manage** section, click **Licenses**.
 
     >**Note**: Azure AD Premium P1 or P2 licenses are required in order to implement dynamic groups.
 
@@ -258,6 +258,8 @@ In this task, you will create Azure AD guest users and grant them access to reso
 1. Sign out from the Azure portal and sign in back. 
 
 1. Navigate back to the **Delete directory 'Contoso Lab'** blade and click **Delete**.
+
+> **Note**: You will have to wait for license expiration before you can delete the tenant. This does not incur any additional cost.
 
 #### Review
 

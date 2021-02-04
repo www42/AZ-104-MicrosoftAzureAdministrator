@@ -39,7 +39,7 @@ In this task, you will deploy three virtual machines, each into a separate virtu
 
 1. From the Cloud Shell pane, run the following to create the first resource group that will be hosting the first virtual network and the pair of virtual machines (replace the `[Azure_region_1]` placeholder with the name of an Azure region where you intend to deploy these Azure virtual machines):
 
-   ```pwsh
+   ```powershell
    $location = '[Azure_region_1]'
 
    $rgName = 'az104-05-rg0'
@@ -50,7 +50,7 @@ In this task, you will deploy three virtual machines, each into a separate virtu
    
 1. From the Cloud Shell pane, run the following to create the first virtual network and deploy a virtual machine into it by using the template and parameter files you uploaded:
 
-   ```pwsh
+   ```powershell
    New-AzResourceGroupDeployment `
       -ResourceGroupName $rgName `
       -TemplateFile $HOME/az104-05-vnetvm-template.json `
@@ -60,14 +60,14 @@ In this task, you will deploy three virtual machines, each into a separate virtu
    ```
 1. From the Cloud Shell pane, run the following to create the second resource group that will be hosting the second virtual network and the second virtual machine
 
-   ```pwsh
+   ```powershell
    $rgName = 'az104-05-rg1'
 
    New-AzResourceGroup -Name $rgName -Location $location
    ```
 1. From the Cloud Shell pane, run the following to create the second virtual network and deploy a virtual machine into it by using the template and parameter files you uploaded:
 
-   ```pwsh
+   ```powershell
    New-AzResourceGroupDeployment `
       -ResourceGroupName $rgName `
       -TemplateFile $HOME/az104-05-vnetvm-template.json `
@@ -77,7 +77,7 @@ In this task, you will deploy three virtual machines, each into a separate virtu
    ```
 1. From the Cloud Shell pane, run the following to create the third resource group that will be hosting the third virtual network and the third virtual machine (replace the `[Azure_region_2]` placeholder with the name of another Azure region where you can deploy Azure virtual machines, different from the Azure region you used for the other two deployments):
 
-   ```pwsh
+   ```powershell
    $location = '[Azure_region_2]'
 
    $rgName = 'az104-05-rg2'
@@ -86,7 +86,7 @@ In this task, you will deploy three virtual machines, each into a separate virtu
    ```
 1. From the Cloud Shell pane, run the following to create the third virtual network and deploy a virtual machine into it by using the template and parameter files you uploaded:
 
-   ```pwsh
+   ```powershell
    New-AzResourceGroupDeployment `
       -ResourceGroupName $rgName `
       -TemplateFile $HOME/az104-05-vnetvm-template.json `
@@ -114,20 +114,22 @@ In this task, you will configure local and global peering between the virtual ne
 
 1. On the **az104-05-vnet0** virtual network blade, in the **Settings** section, click **Peerings** and then click **+ Add**.
 
-1. Add a peering with the following settings (leave others with their default values):
+1. Specify the following settings (leave others with their default values) and click **Add**:
 
     | Setting | Value|
     | --- | --- |
-    | Name of the peering from az104-05-vnet0 to remote virtual network | **az104-05-vnet0_to_az104-05-vnet1** |
+    | This virtual network: Peering link name | **az104-05-vnet0_to_az104-05-vnet1** |
+    | This virtual network: Traffic to remote virtual network | **Allow (default)** |
+    | This virtual network: Traffic forwarded from remote virtual network | **Block traffic that originates from outside this virtual network** |
+    | Virtual network gateway | **None** |
+    | Remote virtual network: Peering link name | **az104-05-vnet1_to_az104-05-vnet0** |    
     | Virtual network deployment model | **Resource manager** |
+    | I know my resource ID | unselected |
     | Subscription | the name of the Azure subscription you are using in this lab |
-    | Virtual network | **az104-05-vnet1 (az104-05-rg1)** |
-    | Name of the peering from az104-05-vnet1 to az104-05-vnet0 | **az104-05-vnet1_to_az104-05-vnet0** |
-    | Allow virtual network access from az104-05-vnet0 to az104-05-vnet1 | **Enabled** |
-    | Allow virtual network access from az104-05-vnet1 to az104-05-vnet0 | **Enabled** |
-    | Allow forwarded traffic from az104-05-vnet1 to az104-05-vnet0 | **Disabled** |
-    | Allow forwarded traffic from az104-05-vnet0 to az104-05-vnet1 | **Disabled** |
-    | Allow gateway transit | **(Uncheck Box)** |
+    | Virtual network | **az104-05-vnet1** |
+    | Traffic to remote virtual network | **Allow (default)** |
+    | Traffic forwarded from remote virtual network | **Block traffic that originates from outside this virtual network** |
+    | Virtual network gateway | **None** |
 
     >**Note**: This step establishes two local peerings - one from az104-05-vnet0 to az104-05-vnet1 and the other from az104-05-vnet1 to az104-05-vnet0.
 
@@ -137,17 +139,19 @@ In this task, you will configure local and global peering between the virtual ne
 
     | Setting | Value|
     | --- | --- |
-    | Name of the peering from az104-05-vnet0 to remote virtual network | **az104-05-vnet0_to_az104-05-vnet2** |
+    | This virtual network: Peering link name | **az104-05-vnet0_to_az104-05-vnet2** |
+    | This virtual network: Traffic to remote virtual network | **Allow (default)** |
+    | This virtual network: Traffic forwarded from remote virtual network | **Block traffic that originates from outside this virtual network** |
+    | Virtual network gateway | **None** |
+    | Remote virtual network: Peering link name | **az104-05-vnet2_to_az104-05-vnet0** |    
     | Virtual network deployment model | **Resource manager** |
+    | I know my resource ID | unselected |
     | Subscription | the name of the Azure subscription you are using in this lab |
-    | Virtual network | **az104-05-vnet2 (az104-05-rg2)** |
-    | Name of the peering from az104-05-vnet2 to az104-05-vnet0 | **az104-05-vnet2_to_az104-05-vnet0** |
-    | Allow virtual network access from az104-05-vnet0 to az104-05-vnet2 | **Enabled** |
-    | Allow virtual network access from az104-05-vnet2 to az104-05-vnet0 | **Enabled** |
-    | Allow forwarded traffic from az104-05-vnet2 to az104-05-vnet0 | **Disabled** |
-    | Allow forwarded traffic from az104-05-vnet0 to az104-05-vnet2 | **Disabled** |
-    | Allow gateway transit | **(Uncheck Box)** |
-
+    | Virtual network | **az104-05-vnet2** |
+    | Traffic to remote virtual network | **Allow (default)** |
+    | Traffic forwarded from remote virtual network | **Block traffic that originates from outside this virtual network** |
+    | Virtual network gateway | **None** |
+    
     >**Note**: This step establishes two global peerings - one from az104-05-vnet0 to az104-05-vnet2 and the other from az104-05-vnet2 to az104-05-vnet0.
 
 1. Navigate back to the **Virtual networks** blade and, in the list of virtual networks, click **az104-05-vnet1**.
@@ -158,17 +162,19 @@ In this task, you will configure local and global peering between the virtual ne
 
     | Setting | Value|
     | --- | --- |
-    | Name of the peering from az104-05-vnet1 to remote virtual network | **az104-05-vnet1_to_az104-05-vnet2** |
+    | This virtual network: Peering link name | **az104-05-vnet1_to_az104-05-vnet2** |
+    | This virtual network: Traffic to remote virtual network | **Allow (default)** |
+    | This virtual network: Traffic forwarded from remote virtual network | **Block traffic that originates from outside this virtual network** |
+    | Virtual network gateway | **None** |
+    | Remote virtual network: Peering link name | **az104-05-vnet2_to_az104-05-vnet1** |    
     | Virtual network deployment model | **Resource manager** |
+    | I know my resource ID | unselected |
     | Subscription | the name of the Azure subscription you are using in this lab |
-    | Virtual network | **az104-05-vnet2 (az104-05-rg2)** |
-    | Name of the peering from az104-05-vnet2 to az104-05-vnet1 | **az104-05-vnet2_to_az104-05-vnet1** |
-    | Allow virtual network access from az104-05-vnet1 to az104-05-vnet2 | **Enabled** |
-    | Allow virtual network access from az104-05-vnet2 to az104-05-vnet1 | **Enabled** |
-    | Allow forwarded traffic from az104-05-vnet2 to az104-05-vnet1 | **Disabled** |
-    | Allow forwarded traffic from az104-05-vnet1 to az104-05-vnet2 | **Disabled** |
-    | Allow gateway transit | **(Uncheck Box)** |
-
+    | Virtual network | **az104-05-vnet2** |
+    | Traffic to remote virtual network | **Allow (default)** |
+    | Traffic forwarded from remote virtual network | **Block traffic that originates from outside this virtual network** |
+    | Virtual network gateway | **None** |
+    
     >**Note**: This step establishes two global peerings - one from az104-05-vnet1 to az104-05-vnet2 and the other from az104-05-vnet2 to az104-05-vnet1.
 
 #### Task 3: Test intersite connectivity 
@@ -191,7 +197,7 @@ In this task, you will test connectivity between virtual machines on the three v
 
 1. In the Windows PowerShell console window, run the following to test connectivity to **az104-05-vm1** (which has the private IP address of **10.51.0.4**) over TCP port 3389:
 
-   ```pwsh
+   ```powershell
    Test-NetConnection -ComputerName 10.51.0.4 -Port 3389 -InformationLevel 'Detailed'
    ```
     >**Note**: The test uses TCP 3389 since this is this port is allowed by default by operating system firewall. 
@@ -200,7 +206,7 @@ In this task, you will test connectivity between virtual machines on the three v
 
 1. In the Windows PowerShell console window, run the following to test connectivity to **az104-05-vm2** (which has the private IP address of **10.52.0.4**):
 
-   ```pwsh
+   ```powershell
    Test-NetConnection -ComputerName 10.52.0.4 -Port 3389 -InformationLevel 'Detailed'
    ```
 1. Switch back to the Azure portal on your lab computer and navigate back to the **Virtual machines** blade. 
@@ -219,7 +225,7 @@ In this task, you will test connectivity between virtual machines on the three v
 
 1. In the Windows PowerShell console window, run the following to test connectivity to **az104-05-vm2** (which has the private IP address of **10.52.0.4**) over TCP port 3389:
 
-   ```pwsh
+   ```powershell
    Test-NetConnection -ComputerName 10.52.0.4 -Port 3389 -InformationLevel 'Detailed'
    ```
     >**Note**: The test uses TCP 3389 since this is this port is allowed by default by operating system firewall. 
@@ -234,13 +240,13 @@ In this task, you will test connectivity between virtual machines on the three v
 
 1. List all resource groups created throughout the labs of this module by running the following command:
 
-   ```pwsh
+   ```powershell
    Get-AzResourceGroup -Name 'az104-05*'
    ```
 
 1. Delete all resource groups you created throughout the labs of this module by running the following command:
 
-   ```pwsh
+   ```powershell
    Get-AzResourceGroup -Name 'az104-05*' | Remove-AzResourceGroup -Force -AsJob
    ```
 

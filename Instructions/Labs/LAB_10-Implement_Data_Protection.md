@@ -45,7 +45,7 @@ In this task, you will deploy two virtual machines that will be used to test dif
 
 1. From the Cloud Shell pane, run the following to create the resource group that will be hosting the virtual machines (replace the `[Azure_region]` placeholder with the name of an Azure region where you intend to deploy Azure virtual machines):
 
-   ```pwsh
+   ```powershell
    $location = '[Azure_region]'
 
    $rgName = 'az104-10-rg0'
@@ -54,7 +54,7 @@ In this task, you will deploy two virtual machines that will be used to test dif
    ```
 1. From the Cloud Shell pane, run the following to create the first virtual network and deploy a virtual machine into it by using the template and parameter files you uploaded:
 
-   ```pwsh
+   ```powershell
    New-AzResourceGroupDeployment `
       -ResourceGroupName $rgName `
       -TemplateFile $HOME/az104-10-vms-template.json `
@@ -162,7 +162,7 @@ In this task, you will implement file and folder backup by using Azure Recovery 
 
 1. Within the Remote Desktop session to the **az104-10-vm1** Azure virtual machine, in the **Server Manager** window, click **Local Server**, click **IE Enhanced Security Configuration** and turn it **Off** for Administrators.
 
-1. Within the Remote Desktop session to the **az104-10-vm1** Azure virtual machine, start Internet Explorer, browse to the [Azure portal](https://portal.azure.com), and sign in using your credentials. 
+1. Within the Remote Desktop session to the **az104-10-vm1** Azure virtual machine, start a web browser, browse to the [Azure portal](https://portal.azure.com), and sign in using your credentials. 
 
 1. In the Azure portal, search for and select **Recovery Services vaults** and, on the **Recovery Services vaults**, click **az104-10-rsv1**.
 
@@ -187,7 +187,7 @@ In this task, you will implement file and folder backup by using Azure Recovery 
 
 1. On the **Installation** page of the **Microsoft Azure Recovery Services Agent Setup Wizard**, click **Proceed to Registration**. This will start **Register Server Wizard**.
 
-1. Switch to the Internet Explorer window displaying the Azure portal, on the **Prepare infrastructure** blade, select the checkbox **Already downloaded or using the latest Recovery Server Agent**, and click **Download**.
+1. Switch to the web browser window displaying the Azure portal, on the **Prepare infrastructure** blade, select the checkbox **Already downloaded or using the latest Recovery Server Agent**, and click **Download**.
 
 1. When prompted, whether to open or save the vault credentials file, click **Save**. This will save the vault credentials file to the local Downloads folder.
 
@@ -239,7 +239,7 @@ In this task, you will implement file and folder backup by using Azure Recovery 
 
 1. When the backup is complete, click **Close**, and then close Microsoft Azure Backup.
 
-1. Switch to the Internet Explorer window displaying the Azure portal, navigate back to the Recovery Services vault blade and click **Backup items**. 
+1. Switch to the web browser window displaying the Azure portal, navigate back to the Recovery Services vault blade and click **Backup items**. 
 
 1. On the **az104-10-rsv1 - Backup items** blade, click **Azure Backup Agent**.
 
@@ -303,7 +303,7 @@ In this task, you will restore a file from the Azure virtual machine-level snaps
  
    >**Note**: You will restore this file from the Azure virtual machine-level snapshot-based backup later in this task.
 
-1. Within the Remote Desktop session to the **az104-10-vm0** Azure virtual machine, start Internet Explorer, browse to the [Azure portal](https://portal.azure.com), and sign in using your credentials. 
+1. Within the Remote Desktop session to the **az104-10-vm0** Azure virtual machine, start a web browser, browse to the [Azure portal](https://portal.azure.com), and sign in using your credentials. 
 
 1. In the Azure portal, search for and select **Recovery Services vaults** and, on the **Recovery Services vaults**, click **az104-10-rsv1**.
 
@@ -331,7 +331,7 @@ In this task, you will restore a file from the Azure virtual machine-level snaps
 
     >**Note**: This will open a Windows PowerShell window displaying the progress of the mount.
 
-    >**Note**: If you receive an error message at this point, refresh the Internet Explorer window and repeat the last three steps.
+    >**Note**: If you receive an error message at this point, refresh the web browser window and repeat the last three steps.
 
 1. Wait for the mount process to complete, review the informational messages in the Windows PowerShell window, note the drive letter assigned to the volume hosting **Windows**, and start File Explorer.
 
@@ -415,7 +415,7 @@ In this task, you will restore a file from the Azure virtual machine-level snaps
 
 1. On the **Undelete az104-10-vm0** blade, click **Undelete**. 
 
-1. Wait for the undelete operation to complete, refresh the browser page, if needed, navigate back to the **az104-10-vm0** Backup Item blade, and click **Delete backup data**.
+1. Wait for the undelete operation to complete, refresh the web browser page, if needed, navigate back to the **az104-10-vm0** Backup Item blade, and click **Delete backup data**.
 
 1. On the **Delete Backup Data** blade, specify the following settings and click **Delete**:
 
@@ -433,13 +433,13 @@ In this task, you will restore a file from the Azure virtual machine-level snaps
 
 1. List all resource groups created throughout the labs of this module by running the following command:
 
-   ```pwsh
+   ```powershell
    Get-AzResourceGroup -Name 'az104-10*'
    ```
 
 1. Delete all resource groups you created throughout the labs of this module by running the following command:
 
-   ```pwsh
+   ```powershell
    Get-AzResourceGroup -Name 'az104-10*' | Remove-AzResourceGroup -Force -AsJob
    ```
 
