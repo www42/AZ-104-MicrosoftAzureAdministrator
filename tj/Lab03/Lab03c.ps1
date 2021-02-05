@@ -36,3 +36,7 @@ Get-AzDisk | Format-Table Name,Location,DiskSizeGB
 (Get-AzDisk -ResourceGroupName $rgName -Name $diskName).Sku
 New-AzDiskUpdateConfig -Sku Premium_LRS | Update-AzDisk -ResourceGroupName $rgName -DiskName $diskName
 (Get-AzDisk -ResourceGroupName $rgName -Name $diskName).Sku
+
+
+
+Get-AzDisk | Where-Object ResourceGroupName -Like az104-03* | Format-Table Name,DiskSizeGB,@{n="Sku";e={$_.Sku.Name}}
